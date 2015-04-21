@@ -67,7 +67,7 @@ class Application extends CompressableExternalModule
     public function __construct($path = null, $vid = null, $resources = null)
     {
         // Save CMSApplication instance
-        if (get_class($this) !== __CLASS__ || get_class($this) !== 'samson\\cms\\App') {
+        if (!in_array(get_class($this), array(__CLASS__, 'samson\\cms\\App'))) {
             self::$loaded[$this->id] = & $this;
         }
 
