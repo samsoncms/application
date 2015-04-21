@@ -33,10 +33,10 @@ class Generic
     protected $type = 0;
 
     /** @var string Path to field view file */
-    protected $innerView = 'www/collection/body/col';
+    protected $innerView = 'www/collection/field/generic';
 
     /** @var string Path to field view file */
-    protected $headerView = 'www/collection/field/generic';
+    protected $headerView = 'www/collection/header/col';
 
 
     /**

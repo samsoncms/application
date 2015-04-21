@@ -17,7 +17,7 @@ use samsonframework\orm\QueryInterface;
 class Control extends Generic
 {
     /** @var string Path to field view file */
-    protected $view = 'www/collection/control';
+    protected $view = 'www/collection/field/control';
 
     /**  Overload parent constructor and pass needed params there */
     public function __construct()
