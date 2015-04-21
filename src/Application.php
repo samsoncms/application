@@ -87,8 +87,8 @@ class Application extends CompressableExternalModule
     public function __handler()
     {
         // Prepare view
-        $this->view('collection/index')
-            ->title(t('Пользователи системы', true))
+        $this->title(t($this->description, true))
+            ->view('collection/index')
             ->set('name', $this->name)
             ->set('icon', $this->icon)
             ->set('description', $this->description)
