@@ -53,6 +53,21 @@ class Collection extends \samsonframework\collection\Paged
     }
 
     /**
+     * Overload renderer
+     * @param string $prefix Prefix for view variables
+     * @param array $restricted Collection of ignored keys
+     * @return array Collection key => value
+     */
+    public function toView($prefix = null, array $restricted = array())
+    {
+        // Render pager and collection
+        return array(
+            $prefix.'html' => $this->render(),
+            $prefix.'pager' => $this->pager->total > 1 ? $this->pager->toHTML() : ''
+        );
+    }
+
+    /**
      * Overload default, render SamsonCMS collection index
      * @param string $items Rendered items
      * @return string Rendered collection block
