@@ -36,7 +36,7 @@ class Generic
     protected $innerView = 'www/collection/body/col';
 
     /** @var string Path to field view file */
-    protected $headerView = 'www/collection/header/col';
+    protected $headerView = 'www/collection/field/generic';
 
 
     /**

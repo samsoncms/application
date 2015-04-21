@@ -14,10 +14,10 @@ use samsonframework\orm\QueryInterface;
  * Overided control field
  * @package samsoncms\app\user
  */
-class ControlField extends Generic
+class Control extends Generic
 {
     /** @var string Path to field view file */
-    protected $view = 'www/controlfield';
+    protected $view = 'www/collection/control';
 
     /**  Overload parent constructor and pass needed params there */
     public function __construct()
