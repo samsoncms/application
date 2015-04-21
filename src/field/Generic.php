@@ -5,7 +5,7 @@
  * Date: 21.04.2015
  * Time: 14:04
  */
-namespace samsoncms;
+namespace samsoncms\field;
 
 use samsonframework\core\RenderInterface;
 use samsonframework\orm\QueryInterface;
@@ -15,7 +15,7 @@ use samsonframework\orm\QueryInterface;
  * @package samsoncms
  * @author Vitaly Iegorov <egorov@samsonos.com>
  */
-class CollectionField
+class Generic
 {
     /** @var string Coolection field real name */
     protected $name;
