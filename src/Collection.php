@@ -87,15 +87,8 @@ class Collection extends \samsonframework\collection\Paged
         // Iterate all entity fields
         $fieldsHTML = '';
         foreach ($this->fields as $field) {
-            // Create input element for field
-            $input = m('samsoncms_input_application')->createFieldByType($this->query, $field->type, $item, $field->name);
-
             // Render input field view
-            $fieldsHTML .= $this->renderer
-                ->view($this->colView)
-                ->set('class', $field->name)
-                ->set($input, 'field')
-                ->output();
+            $fieldsHTML .= $field->render($this->renderer, $this->query, $item);
         }
 
         // Render fields row view

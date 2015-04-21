@@ -7,6 +7,9 @@
  */
 namespace samsoncms;
 
+use samsonframework\core\RenderInterface;
+use samsonframework\orm\QueryInterface;
+
 /**
  * Collection view field descriptor class
  * @package samsoncms
@@ -29,6 +32,9 @@ class CollectionField
     /** @var string Collection field additional field type */
     public $type = 0;
 
+    /** @var string Path to field view file */
+    protected $view = 'www/collection/body/col';
+
     /**
      * @param string $name Collection field real name
      * @param string $title Collection field title
@@ -43,5 +49,25 @@ class CollectionField
         $this->type = $type;
         $this->css = isset($css{0}) ? $css : $name;
         $this->editable = $editable;
+    }
+
+    /**
+     * Render collection entity field
+     * @param RenderInterface $renderer
+     * @param QueryInterface $query
+     * @param mixed $object Entity object instance
+     * @return string Rendered entity field
+     */
+    public function render(RenderInterface $renderer, QueryInterface $query, $object)
+    {
+        // Create input element for field
+        $input = m('samsoncms_input_application')->createFieldByType($query, $this->type, $object, $this->name);
+
+        // Render input field view
+        return $renderer
+            ->view($this->view)
+            ->set('class', $this->name)
+            ->set($input, 'field')
+            ->output();
     }
 }
