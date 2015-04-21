@@ -1,5 +1,5 @@
-<div class="table2-col <?php iv('class')?>">
+<div class="table2-col table2-header-col <?php iv('class')?>">
     <span class="cell-inner">
-        <?php v('item_id');?>
+        <?php v('field');?>
     </span>
 </div>

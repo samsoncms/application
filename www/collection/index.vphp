@@ -1,8 +1,8 @@
 <div class="table2">
-    <div class="table2-header">
-        <?php iv('header') ?>
+    <div class="table2-row table2-header-row">
+        <?php iv('header')?>
     </div>
     <div class="table2-body">
-        <?php iv('body') ?>
+        <?php iv('items') ?>
     </div>
 </div>

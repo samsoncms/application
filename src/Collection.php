@@ -20,11 +20,17 @@ use samsonframework\orm\QueryInterface;
  */
 class Collection extends \samsonframework\collection\Paged
 {
+    /** @var string Entity header field view */
+    protected $headerColView = 'collection/header/col';
+
     /** @var string Entity fields row view */
     protected $rowView = 'collection/body/row';
 
     /** @var string Entity field view */
     protected $colView = 'collection/body/col';
+
+    /** @var array Collection of entity fields to manipulate */
+    protected $fields;
 
     /**
      * Generic collection constructor
@@ -33,9 +39,40 @@ class Collection extends \samsonframework\collection\Paged
      */
     public function __construct(RenderInterface $renderer, QueryInterface $query, PagerInterface $pager)
     {
-        trace($renderer, true);
         // Call parent initialization
         parent::__construct($renderer, $query, $pager);
+
+        // If we have not configured fields before
+        if (!sizeof($this->fields)) {
+            // TODO: This must be incapsulated into QueryInterface ancestor
+            // Get current entity name
+            $entity = $query->className();
+            // Store its attributes
+            $this->fields = $entity::$_attributes;
+        }
+    }
+
+    /**
+     * Overload default, render SamsonCMS collection index
+     * @param string $items Rendered items
+     * @return string Rendered collection block
+     */
+    public function renderIndex($items)
+    {
+        $headerHTML = '';
+        foreach ($this->fields as $field) {
+            $headerHTML .= $this->renderer
+                ->view($this->headerColView)
+                ->set('field', $field)
+                ->set('class', $field)
+                ->output();
+        }
+
+        return $this->renderer
+            ->view($this->indexView)
+            ->set('header', $headerHTML)
+            ->set('items', $items)
+            ->output();
     }
 
     /**
@@ -45,24 +82,19 @@ class Collection extends \samsonframework\collection\Paged
      */
     public function renderItem($item)
     {
-        // TODO: This must be incapsulated into QueryInterface ancestor
-        $attributes = $item::$_attributes;
-
         // Iterate all entity fields
         $fieldsHTML = '';
-        foreach ($attributes as $field => $value) {
+        foreach ($this->fields as $field => $value) {
             // Create input element for field
-            $input = m('samsoncms_input_application')->createFieldByType($this->query, 1, $item, $field);
+            $input = m('samsoncms_input_application')->createFieldByType($this->query, 0, $item, $field);
 
             // Render input field view
-            $fieldsHTML = $this->renderer
+            $fieldsHTML .= $this->renderer
                 ->view($this->colView)
                 ->set('class', $field)
                 ->set($input, 'field')
                 ->output();
         }
-
-        trace($fieldsHTML, true);
 
         // Render fields row view
         return $this->renderer
