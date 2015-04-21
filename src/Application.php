@@ -41,6 +41,7 @@ class Application extends CompressableExternalModule
     /**
      * Get all loaded SamsonCMS applications
      * @return App[] Collection of loaded applications
+     * @deprecated
      */
     public static function loaded()
     {
@@ -160,7 +161,10 @@ class Application extends CompressableExternalModule
         return false;
     }
 
-    /** Generic handler for rendering SamsonCMS application "Help" */
+    /**
+     * Generic handler for rendering SamsonCMS application "Help"
+     * @deprecated
+     */
     public function help($category = null)
     {
         if ($this->findView('help/index')) {
