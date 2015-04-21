@@ -81,14 +81,23 @@ class Generic
      */
     public function render(RenderInterface $renderer, QueryInterface $query, $object)
     {
-        // Create input element for field
-        $input = m('samsoncms_input_application')->createFieldByType($query, $this->type, $object, $this->name);
+        // Set view
+        $renderer = $renderer->view($this->innerView);
+
+        // If we need to render input field
+        if ($this->editable) {
+            // Create input element for field
+            $renderer->set(
+                m('samsoncms_input_application')->createFieldByType($query, $this->type, $object, $this->name),
+                'field'
+            );
+        } else { // Or just show a value of entity object field
+            $renderer->set('field_html', $object[$this->name]);
+        }
 
         // Render input field view
         return $renderer
-            ->view($this->innerView)
             ->set('class', $this->css)
-            ->set($input, 'field')
             ->output();
     }
 }
