@@ -21,6 +21,9 @@ use samsonframework\orm\QueryInterface;
  */
 class Collection extends \samsonframework\collection\Paged
 {
+    /** @var string Index collection view */
+    protected $indexView = 'collection/collection';
+
     /** @var string Entity fields row view */
     protected $rowView = 'collection/row/body';
 

@@ -1,7 +1,9 @@
 <?php 
 namespace samsoncms;
 
+use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
+use samson\pager\Pager;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -12,11 +14,23 @@ class Application extends CompressableExternalModule
     /** Application name */
     public $name;
 
+    /** Application description */
+    public $description;
+
     /** Flag for hiding Application icon in main menu */
     public $hide = false;
 
     /** @var string Application main menu icon */
     public $icon = 'book';
+
+    /** @var string Entity class name */
+    protected $entity = 'material';
+
+    /** @var string Collection class name for rendering entities collection */
+    protected $collectionClassName = 'Collection';
+
+    /** @var int Collection page size */
+    protected $pageSize = 10;
 
     /**
      * Collection of loaded SamsonCMS applications
@@ -56,7 +70,49 @@ class Application extends CompressableExternalModule
             self::$loaded[$this->id] = & $this;
         }
 
+        // TODO: WTF? Why it does not use $this namespace?
+        // Temporary build collection class name manually
+        $className = get_class($this);
+        $namespace = substr($className, 0, strrpos($className, '\\'));
+        $this->collectionClassName = $namespace.'\\Collection';
+
         parent::__construct($path, $vid, $resources);
+    }
+
+    /**
+     * Universal controller action.
+     * Entity collection rendering
+     */
+    public function __handler()
+    {
+        // Prepare view
+        $this->view('collection/index')
+            ->title(t('Пользователи системы', true))
+            ->set('name', $this->name)
+            ->set('icon', $this->icon)
+            ->set('description', $this->description)
+            ->set($this->__async_collection())
+        ;
+    }
+
+    /**
+     * Render users list
+     * @return array Asynchronous response array
+     */
+    public function __async_collection($page = 1)
+    {
+        // Create entities collection from defined parameters
+        $entitiesCollection = new $this->collectionClassName(
+            $this,
+            new dbQuery($this->entity),
+            new Pager($page, $this->pageSize, 'user/collection')
+        );
+
+        // Generate Asynchronous response array
+        return array_merge(
+            array('status' => 1),
+            $entitiesCollection->toView('collection_')
+        );
     }
 
     /**
