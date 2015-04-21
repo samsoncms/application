@@ -91,13 +91,14 @@ class Generic
                 m('samsoncms_input_application')->createFieldByType($query, $this->type, $object, $this->name),
                 'field'
             );
-        } else { // Or just show a value of entity object field
+        } else if (isset($object[$this->name])){ // Or just show a value of entity object field
             $renderer->set('field_html', $object[$this->name]);
         }
 
         // Render input field view
         return $renderer
             ->set('class', $this->css)
+            ->set($object, 'item')
             ->output();
     }
 }
