@@ -7,6 +7,7 @@
  */
 namespace samsoncms;
 
+use samsoncms\field\Generic;
 use samsonframework\core\RenderInterface;
 use samsonframework\pager\PagerInterface;
 use samsonframework\orm\QueryInterface;
@@ -43,7 +44,7 @@ class Collection extends \samsonframework\collection\Paged
             $entity = $query->className();
             // Store its attributes
             foreach ($entity::$_attributes as $field) {
-                $this->fields[] = new CollectionField($field);
+                $this->fields[] = new Generic($field);
             }
         }
     }
