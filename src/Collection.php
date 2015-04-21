@@ -66,7 +66,7 @@ class Collection extends \samsonframework\collection\Paged
             $headerHTML .= $this->renderer
                 ->view($this->headerColView)
                 ->set('field', $field->title)
-                ->set('class', $field->name)
+                ->set('class', $field->css)
                 ->output();
         }
 
@@ -88,7 +88,7 @@ class Collection extends \samsonframework\collection\Paged
         $fieldsHTML = '';
         foreach ($this->fields as $field) {
             // Create input element for field
-            $input = m('samsoncms_input_application')->createFieldByType($this->query, 0, $item, $field->name);
+            $input = m('samsoncms_input_application')->createFieldByType($this->query, $field->type, $item, $field->name);
 
             // Render input field view
             $fieldsHTML .= $this->renderer

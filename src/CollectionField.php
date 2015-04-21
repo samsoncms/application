@@ -39,9 +39,9 @@ class CollectionField
     public function __construct($name, $title = null, $type = 0, $css = '', $editable = true)
     {
         $this->name = $name;
-        $this->title = isset($title) ? $title : $name;
+        $this->title = isset($title{0}) ? $title : $name;
         $this->type = $type;
-        $this->css = $css;
+        $this->css = isset($css{0}) ? $css : $name;
         $this->editable = $editable;
     }
 }
