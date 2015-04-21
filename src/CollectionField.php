@@ -44,11 +44,11 @@ class CollectionField
      */
     public function __construct($name, $title = null, $type = 0, $css = '', $editable = true)
     {
-        $this->name = $name;
-        $this->title = isset($title{0}) ? $title : $name;
-        $this->type = $type;
-        $this->css = isset($css{0}) ? $css : $name;
-        $this->editable = $editable;
+        $this->name = isset($this->name{0}) ? $this->name : $name;
+        $this->title = isset($this->title{0}) ? $this->title : isset($title) ? $title : $name;
+        $this->type = isset($this->type) ? $this->type : isset($type) ? $type : 0;
+        $this->css = isset($this->css{0}) ? $this->css : isset($css{0}) ? $css : $name;
+        $this->editable = isset($this->editable) ? $this->editable : isset($editable) ? $editable : true;
     }
 
     /**
@@ -66,7 +66,7 @@ class CollectionField
         // Render input field view
         return $renderer
             ->view($this->view)
-            ->set('class', $this->name)
+            ->set('class', $this->css)
             ->set($input, 'field')
             ->output();
     }
