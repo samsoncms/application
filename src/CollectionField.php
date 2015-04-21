@@ -18,22 +18,26 @@ use samsonframework\orm\QueryInterface;
 class CollectionField
 {
     /** @var string Coolection field real name */
-    public $name = true;
+    protected $name;
 
     /** @var bool Flag if collection field can be edited */
-    public $editable = true;
+    protected $editable = true;
 
     /** @var string Collection field title */
-    public $title;
+    protected $title;
 
     /** @var string Collection field CSS class */
-    public $css;
+    protected $css;
 
     /** @var string Collection field additional field type */
-    public $type = 0;
+    protected $type = 0;
 
     /** @var string Path to field view file */
-    protected $view = 'www/collection/body/col';
+    protected $innerView = 'www/collection/body/col';
+
+    /** @var string Path to field view file */
+    protected $headerView = 'www/collection/header/col';
+
 
     /**
      * @param string $name Collection field real name
@@ -44,6 +48,7 @@ class CollectionField
      */
     public function __construct($name, $title = null, $type = 0, $css = '', $editable = true)
     {
+        trace($this, true);
         $this->name = isset($this->name{0}) ? $this->name : $name;
         $this->title = isset($this->title{0}) ? $this->title : isset($title) ? $title : $name;
         $this->type = isset($this->type) ? $this->type : isset($type) ? $type : 0;
@@ -52,7 +57,24 @@ class CollectionField
     }
 
     /**
-     * Render collection entity field
+     * Render collection entity field header block
+     * @param RenderInterface $renderer
+     * @param QueryInterface $query
+     * @param mixed $object Entity object instance
+     * @return string Rendered entity field
+     */
+    public function renderHeader(RenderInterface $renderer)
+    {
+        // Render input field view
+        return $renderer
+            ->view($this->headerView)
+            ->set('class', $this->css)
+            ->set('field', $this->title)
+            ->output();
+    }
+
+    /**
+     * Render collection entity field inner block
      * @param RenderInterface $renderer
      * @param QueryInterface $query
      * @param mixed $object Entity object instance
@@ -65,7 +87,7 @@ class CollectionField
 
         // Render input field view
         return $renderer
-            ->view($this->view)
+            ->view($this->innerView)
             ->set('class', $this->css)
             ->set($input, 'field')
             ->output();

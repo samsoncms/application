@@ -20,14 +20,8 @@ use samsonframework\orm\QueryInterface;
  */
 class Collection extends \samsonframework\collection\Paged
 {
-    /** @var string Entity header field view */
-    protected $headerColView = 'collection/header/col';
-
     /** @var string Entity fields row view */
     protected $rowView = 'collection/body/row';
-
-    /** @var string Entity field view */
-    protected $colView = 'collection/body/col';
 
     /** @var CollectionField[] Coolection of entity fields to manipulate */
     protected $fields;
@@ -63,11 +57,7 @@ class Collection extends \samsonframework\collection\Paged
     {
         $headerHTML = '';
         foreach ($this->fields as $field) {
-            $headerHTML .= $this->renderer
-                ->view($this->headerColView)
-                ->set('field', $field->title)
-                ->set('class', $field->css)
-                ->output();
+            $headerHTML .= $field->renderHeader($this->renderer);
         }
 
         return $this->renderer
