@@ -29,7 +29,7 @@ class Collection extends \samsonframework\collection\Paged
     /** @var string Entity field view */
     protected $colView = 'collection/body/col';
 
-    /** @var array Collection of entity fields to manipulate */
+    /** @var CollectionField[] Coolection of entity fields to manipulate */
     protected $fields;
 
     /**
@@ -48,7 +48,9 @@ class Collection extends \samsonframework\collection\Paged
             // Get current entity name
             $entity = $query->className();
             // Store its attributes
-            $this->fields = $entity::$_attributes;
+            foreach ($entity::$_attributes as $field) {
+                $this->fields[] = new CollectionField($field);
+            }
         }
     }
 
@@ -63,8 +65,8 @@ class Collection extends \samsonframework\collection\Paged
         foreach ($this->fields as $field) {
             $headerHTML .= $this->renderer
                 ->view($this->headerColView)
-                ->set('field', $field)
-                ->set('class', $field)
+                ->set('field', $field->title)
+                ->set('class', $field->name)
                 ->output();
         }
 
@@ -84,14 +86,14 @@ class Collection extends \samsonframework\collection\Paged
     {
         // Iterate all entity fields
         $fieldsHTML = '';
-        foreach ($this->fields as $field => $value) {
+        foreach ($this->fields as $field) {
             // Create input element for field
-            $input = m('samsoncms_input_application')->createFieldByType($this->query, 0, $item, $field);
+            $input = m('samsoncms_input_application')->createFieldByType($this->query, 0, $item, $field->name);
 
             // Render input field view
             $fieldsHTML .= $this->renderer
                 ->view($this->colView)
-                ->set('class', $field)
+                ->set('class', $field->name)
                 ->set($input, 'field')
                 ->output();
         }
