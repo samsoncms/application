@@ -22,7 +22,7 @@ use samsonframework\orm\QueryInterface;
 class Collection extends \samsonframework\collection\Paged
 {
     /** @var string Entity fields row view */
-    protected $rowView = 'collection/body/row';
+    protected $rowView = 'collection/row/body';
 
     /** @var CollectionField[] Coolection of entity fields to manipulate */
     protected $fields;
