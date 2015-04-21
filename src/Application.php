@@ -96,7 +96,7 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Render users list
+     * Render entities collection
      * @return array Asynchronous response array
      */
     public function __async_collection($page = 1)
@@ -113,6 +113,33 @@ class Application extends CompressableExternalModule
             array('status' => 1),
             $entitiesCollection->toView('collection_')
         );
+    }
+
+    /**
+     * Delete entity
+     * @return array Asynchronous response array
+     */
+    public function __async_remove()
+    {
+
+    }
+
+    /**
+     * Clone sentity
+     * @return array Asynchronous response array
+     */
+    public function __async_clone()
+    {
+
+    }
+
+    /**
+     * Edit entity
+     * @return array Asynchronous response array
+     */
+    public function __async_edit()
+    {
+
     }
 
     /**
