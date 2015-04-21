@@ -48,7 +48,6 @@ class CollectionField
      */
     public function __construct($name, $title = null, $type = 0, $css = '', $editable = true)
     {
-        trace($this, true);
         $this->name = isset($this->name{0}) ? $this->name : $name;
         $this->title = isset($this->title{0}) ? $this->title : isset($title) ? $title : $name;
         $this->type = isset($this->type) ? $this->type : isset($type) ? $type : 0;
