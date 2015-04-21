@@ -1,5 +1,5 @@
 <?php echo m('template')->view('container/list/panel')->output()?>
-<div class="table2">
+<div class="table2 default">
     <div class="table2-row table2-header-row">
         <?php iv('header')?>
     </div>
