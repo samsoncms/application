@@ -5,6 +5,7 @@
     "require":{
       "samsonframework/collection":"*"
     },
+    "minimum-stability":"dev",
     "license":"Open Software License (OSL) v 3.0",
     "homepage":"http://samsonos.com/",
     "autoload": {
