@@ -1,0 +1,16 @@
+{
+    "name":"samsoncms/application",
+    "description":"SamsonCMS generic application",
+    "author":"Vitaly Iegorov <egorov@samsonos.com>",
+    "require":{
+      "samsonframework/collection":"*"
+    },
+    "license":"Open Software License (OSL) v 3.0",
+    "homepage":"http://samsonos.com/",
+    "autoload": {
+        "classmap": ["src/"],
+        "psr-4": {
+            "samsoncms\\": "src/"
+        }
+    }
+}
