@@ -120,7 +120,7 @@ class Application extends CompressableExternalModule
      * Delete entity
      * @return array Asynchronous response array
      */
-    public function __async_remove2()
+    public function __async_remove2($identifier)
     {
 
     }
@@ -129,7 +129,7 @@ class Application extends CompressableExternalModule
      * Clone sentity
      * @return array Asynchronous response array
      */
-    public function __async_clone2()
+    public function __async_clone2($identifier)
     {
 
     }
@@ -138,7 +138,7 @@ class Application extends CompressableExternalModule
      * Edit entity
      * @return array Asynchronous response array
      */
-    public function __async_edit2()
+    public function __async_edit2($identifier)
     {
 
     }
