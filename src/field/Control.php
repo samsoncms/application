@@ -11,7 +11,7 @@ use samsonframework\core\RenderInterface;
 use samsonframework\orm\QueryInterface;
 
 /**
- * Overided control field
+ * Overridden control field
  * @package samsoncms\app\user
  */
 class Control extends Generic
