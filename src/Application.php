@@ -176,7 +176,10 @@ class Application extends CompressableExternalModule
     public function helpMenu(&$html, $renderer)
     {
         if ($this->findView('help/index')) {
-            $html .= '<li><a href="'.$renderer->id.'/#' . $this->id . '">' . t($this->name, true) . '</a></li>';
+            $html .= $renderer->view('submenu-item')
+                ->set('module', $this->id)
+                ->set('modulename', t($this->name, true))
+            ->output();
         }
     }
 
