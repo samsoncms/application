@@ -162,7 +162,7 @@ class Application extends CompressableExternalModule
      * Generic handler for rendering SamsonCMS application "Help" content.
      * @param string $html Content HTML
      */
-    public function help(&$html)
+    public function help(&$html, $category, $subCategory, $subSubCategory)
     {
         if ($this->findView('help/index')) {
             $html .= $this->view('help/index')->output();
@@ -173,7 +173,7 @@ class Application extends CompressableExternalModule
      * Generic handler for rendering SamsonCMS application "Help" menu.
      * @param string $html Sub-menu HTML
      */
-    public function helpMenu(&$html, $renderer)
+    public function helpMenu(&$html, $renderer, $category, $subCategory, $subSubCategory)
     {
         if ($this->findView('help/index')) {
             $html .= $renderer->view('submenu-item')
