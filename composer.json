@@ -27,6 +27,8 @@
       "samsonos/social_email":"*",
       "samsonos/cms_api":"*",
       "samsoncms/template":"*",
+      "samsoncms/material":"*",
+      "samsoncms/help":"*",
       "samsonos/cms_table":"*",
       "samsonos/cms_input":"*",
       "samsonos/cms_app_navigation":"*",
@@ -38,7 +40,6 @@
       "samsonos/cms_app_gallery":"*",
       "samsonos/cms_app_relatedmaterial":"*",
       "samsonos/cms_app_materialtable":"*",
-      "samsoncms/help":"*",
       "samsonos/php_compressor":"*",
       "samsonphp/deploy":"*"
     },
