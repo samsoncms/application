@@ -80,6 +80,12 @@ class Application extends CompressableExternalModule
         parent::__construct($path, $vid, $resources);
     }
 
+    public function init(array $params = array())
+    {
+        \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
+        \samsonphp\event\Event::subscribe('help.submenu.rendered', array($this, 'helpMenu'));
+    }
+
     /**
      * Universal controller action.
      * Entity collection rendering
@@ -153,24 +159,24 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Generic handler for rendering SamsonCMS application "Sub-menu"
-     * @deprecated Subscribe to samsoncms/template event
+     * Generic handler for rendering SamsonCMS application "Help" content.
+     * @param string $html Content HTML
      */
-    public function submenu()
+    public function help(&$html)
     {
-        return false;
+        if ($this->findView('help/index')) {
+            $html .= $this->view('help/index')->output();
+        }
     }
 
     /**
-     * Generic handler for rendering SamsonCMS application "Help"
-     * @deprecated
+     * Generic handler for rendering SamsonCMS application "Help" menu.
+     * @param string $html Sub-menu HTML
      */
-    public function help($category = null)
+    public function helpMenu(&$html)
     {
         if ($this->findView('help/index')) {
-            return $this->view('help/index')->output();
-        } else {
-            return false;
+            $html .= '<li><a href="' . $this->id . '">' . t($this->name, true) . '</a></li>';
         }
     }
 
