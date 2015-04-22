@@ -173,10 +173,10 @@ class Application extends CompressableExternalModule
      * Generic handler for rendering SamsonCMS application "Help" menu.
      * @param string $html Sub-menu HTML
      */
-    public function helpMenu(&$html)
+    public function helpMenu(&$html, $renderer)
     {
         if ($this->findView('help/index')) {
-            $html .= '<li><a href="' . $this->id . '">' . t($this->name, true) . '</a></li>';
+            $html .= '<li><a href="'.$renderer->id.'/#' . $this->id . '">' . t($this->name, true) . '</a></li>';
         }
     }
 
