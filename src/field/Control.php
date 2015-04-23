@@ -17,7 +17,7 @@ use samsonframework\orm\QueryInterface;
 class Control extends Generic
 {
     /** @var string Path to field view file */
-    protected $view = 'www/collection/field/control';
+    protected $innerView = 'www/collection/field/control';
 
     /**  Overload parent constructor and pass needed params there */
     public function __construct()
@@ -36,7 +36,7 @@ class Control extends Generic
     {
         // Render input field view
         return $renderer
-            ->view($this->view)
+            ->view($this->innerView)
             ->set('class', $this->css)
             ->set($object, 'item')
             ->output();

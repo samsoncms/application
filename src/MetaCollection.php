@@ -19,7 +19,7 @@ use samsonframework\orm\QueryInterface;
  * @package samsoncms
  * @author Vitaly Iegorov <egorov@samsonos.com>
  */
-class Collection extends \samsonframework\collection\Paged
+class MetaCollection extends \samsonos\cms\collection\Filtered
 {
     /** @var string Index collection view */
     protected $indexView = 'collection/collection';
