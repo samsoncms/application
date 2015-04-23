@@ -27,6 +27,12 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
     /** @var string Entity fields row view */
     protected $rowView = 'collection/row/body';
 
+    /** @var string Empty row view */
+    protected $emptyView = 'collection/row/empty';
+
+    /** @var string No found row view */
+    protected $notfoundView = 'collection/row/notfound';
+
     /** @var \samsoncms\field\Generic[] Collection of entity fields to manipulate */
     protected $fields;
 
