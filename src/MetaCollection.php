@@ -112,4 +112,16 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
             ->set('cols', $fieldsHTML)
             ->output();
     }
+
+    /**
+     * Empty collection block render function
+     * @return string Rendered empty collection block
+     */
+    public function renderEmpty()
+    {
+        // Render and define which empty collection view to render
+        return $this->renderer
+            ->view(sizeof($this->search) ? $this->notfoundView : $this->emptyView)
+            ->output();
+    }
 }
