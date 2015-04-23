@@ -98,7 +98,7 @@ class Application extends CompressableExternalModule
             ->set('name', $this->name)
             ->set('icon', $this->icon)
             ->set('description', $this->description)
-            ->set($this->__async_collection())
+            ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
         ;
     }
 
