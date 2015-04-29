@@ -46,6 +46,14 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
         // Call parent initialization
         parent::__construct($renderer, $query, $pager);
 
+        if (sizeof($_GET)) {
+            foreach ($_GET as $name => $dest) {
+                if (sizeof(str_replace('sort', '', $name))) {
+                    $this->sorter(str_replace('sort', '', $name), $dest);
+                }
+            }
+        }
+
         // If we have not configured fields before
         if (!sizeof($this->fields)) {
             // TODO: This must be incapsulated into QueryInterface ancestor

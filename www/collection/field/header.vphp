@@ -1,5 +1,11 @@
 <div class="table2-col table2-header-col <?php iv('class')?>">
-    <span class="cell-inner">
-        <?php v('field');?>
-    </span>
+    <?php if (isval('canSort', true)) { ?>
+        <a class="collection-sort-link <?php iv('sortClass') ?>" href="<?php module_url('collection') ?>" name-attr="<?php iv('sortName') ?>" dest-attr="<?php iv('sortDest') ?>">
+            <?php v('field');?>
+        </a>
+    <?php } else { ?>
+        <span class="cell-inner">
+            <?php v('field');?>
+        </span>
+    <?php } ?>
 </div>
