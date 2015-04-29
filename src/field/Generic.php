@@ -23,6 +23,9 @@ class Generic
     /** @var bool Flag if collection field can be edited */
     protected $editable = true;
 
+    /** @var bool Flag if collection can be sorted by this field */
+    protected $sortable = false;
+
     /** @var string Collection field title */
     protected $title;
 
@@ -46,13 +49,14 @@ class Generic
      * @param string $css Collection field CSS class
      * @param bool $editable Collection field title
      */
-    public function __construct($name, $title = null, $type = 0, $css = '', $editable = true)
+    public function __construct($name, $title = null, $type = 0, $css = '', $editable = true, $sortable = false)
     {
         $this->name = isset($this->name{0}) ? $this->name : $name;
         $this->title = isset($title) ? $title : $name;
         $this->type = isset($type) ? $type : 0;
         $this->css = isset($css{0}) ? $css : $name;
         $this->editable = $editable;
+        $this->sortable = $sortable;
     }
 
     /**
@@ -64,11 +68,23 @@ class Generic
      */
     public function renderHeader(RenderInterface $renderer)
     {
+        $dest = 'asc';
+        $sortClass = '';
+
+        if (isset($_GET['sort'.$this->name])) {
+            $dest = $_GET['sort'.$this->name] == 'asc' ? 'desc' : 'asc';
+            $sortClass = $_GET['sort'.$this->name];
+        }
+
         // Render input field view
         return $renderer
             ->view($this->headerView)
             ->set('class', $this->css)
             ->set('field', $this->title)
+            ->set('canSort', $this->sortable)
+            ->set('sortName', 'sort'.$this->name)
+            ->set('sortClass', $sortClass)
+            ->set('sortDest', $dest)
             ->output();
     }
 
