@@ -12,4 +12,4 @@ This is base module in SamsonCMS application system. This class is based on Sams
 ```samson\core\ExternalModule``` class.
 
 
-(SamsonCMS official web-site)[samsoncms.com]
+[SamsonCMS official web-site](samsoncms.com)
