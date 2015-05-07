@@ -83,15 +83,23 @@ class Generic
             $sortClass = $_GET['sort'.$this->name];
         }
 
+        // Build part of url with existed GET parameters
+        $link = '?';
+        foreach ($_GET as $key => $value) {
+            if (!(substr_count($key, 'sort'))) {
+                $link .= $key.'='.$value.'&';
+            }
+        }
+        $link .= 'sort'.$this->name.'='.$dest;
+
         // Render input field view
         return $renderer
             ->view($this->headerView)
             ->set('class', $this->css)
             ->set('field', $this->title)
             ->set('canSort', $this->sortable)
-            ->set('sortName', 'sort'.$this->name)
             ->set('sortClass', $sortClass)
-            ->set('sortDest', $dest)
+            ->set('sortLink', $link)
             ->output();
     }
 
