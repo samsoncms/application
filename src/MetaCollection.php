@@ -46,9 +46,12 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
         // Call parent initialization
         parent::__construct($renderer, $query, $pager);
 
+        // Check sorting GET parameters
         if (sizeof($_GET)) {
             foreach ($_GET as $name => $dest) {
+                // If get parameter defines sorting
                 if (sizeof(str_replace('sort', '', $name))) {
+                    // Add collection sorter by current parameter
                     $this->sorter(str_replace('sort', '', $name), $dest);
                 }
             }
