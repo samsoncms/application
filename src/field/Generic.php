@@ -47,7 +47,8 @@ class Generic
      * @param string $title Collection field title
      * @param int $type  Collection field additional field type
      * @param string $css Collection field CSS class
-     * @param bool $editable Collection field title
+     * @param bool $editable Collection field editable status
+     * @param bool $sortable Collection field sortable status
      */
     public function __construct($name, $title = null, $type = 0, $css = '', $editable = true, $sortable = false)
     {
@@ -68,11 +69,17 @@ class Generic
      */
     public function renderHeader(RenderInterface $renderer)
     {
+        // Default sorting destination
         $dest = 'asc';
+
+        // Default sorting class
         $sortClass = '';
 
+        // If current field has sorting GET parameter
         if (isset($_GET['sort'.$this->name])) {
+            // Change sorting destination
             $dest = $_GET['sort'.$this->name] == 'asc' ? 'desc' : 'asc';
+            // Set sorting class as destination value
             $sortClass = $_GET['sort'.$this->name];
         }
 
