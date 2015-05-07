@@ -18,7 +18,7 @@ use samsonframework\orm\QueryInterface;
 class Generic
 {
     /** @var string Coolection field real name */
-    protected $name;
+    public $name;
 
     /** @var bool Flag if collection field can be edited */
     protected $editable = true;
@@ -109,11 +109,29 @@ class Generic
 
         // If we need to render input field
         if ($this->editable) {
-            // Create input element for field
-            $renderer->set(
-                m('samsoncms_input_application')->createFieldByType($query, $this->type, $object, $this->name),
-                'field'
-            );
+            // If we have received material field not regular table record
+            if ($object instanceof \samson\activerecord\materialfield) {
+                // Create input element for field
+                $renderer->set(
+                    m('samsoncms_input_application')->createFieldByType(
+                        $query,
+                        $this->type,
+                        $object
+                    ),
+                    'field'
+                );
+            } else {
+                // Create input element for field
+                $renderer->set(
+                    m('samsoncms_input_application')->createFieldByType(
+                        $query,
+                        $this->type,
+                        $object,
+                        $this->name
+                    ),
+                    'field'
+                );
+            }
         } else if (isset($object[$this->name])){ // Or just show a value of entity object field
             $renderer->set('field_html', $object[$this->name]);
         }

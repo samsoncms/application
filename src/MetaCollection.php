@@ -7,6 +7,8 @@
  */
 namespace samsoncms;
 
+use samson\activerecord\materialfield;
+use samson\core\SamsonLocale;
 use samsoncms\field\Generic;
 use samsonframework\core\RenderInterface;
 use samsonframework\pager\PagerInterface;
@@ -36,15 +38,20 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
     /** @var \samsoncms\field\Generic[] Collection of entity fields to manipulate */
     protected $fields;
 
+    /** @var string Current collection locale */
+    protected $locale;
+
     /**
      * Generic collection constructor
      * @param RenderInterface $renderer View render object
      * @param QueryInterface $query Query object
      */
-    public function __construct(RenderInterface $renderer, QueryInterface $query, PagerInterface $pager)
+    public function __construct(RenderInterface $renderer, QueryInterface $query, PagerInterface $pager, $locale = SamsonLocale::DEF)
     {
         // Call parent initialization
         parent::__construct($renderer, $query, $pager);
+
+        $this->locale = $locale;
 
         // Check sorting GET parameters
         if (sizeof($_GET)) {
@@ -112,9 +119,40 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
     {
         // Iterate all entity fields
         $fieldsHTML = '';
-        foreach ($this->fields as $field) {
-            // Render input field view
-            $fieldsHTML .= $field->render($this->renderer, $this->query, $item);
+        foreach ($this->fields as $inputField) {
+            // TODO: Maybe we can optimize this requests
+            // Find additional field by Name
+            $field = null;
+            if (dbQuery('field')->cond('Name', $inputField->name)->first($field)) {
+                // Create material field query to get additional field record
+                $query = dbQuery('materialfield')
+                    ->cond('MaterialID', $item->id)
+                    ->cond('FieldID', $field->id)
+                    ;
+
+                // If additional field is localizable add locale condition
+                if ($field->local == 1) {
+                    $query->cond('locale', $this->locale);
+                }
+
+                // Try to find materialfield record for this item and its field
+                $materialfield = null;
+                if (!$query->first($materialfield)) {
+                    // Create record if it does not exists
+                    $materialfield = new materialfield(false);
+                    $materialfield->MaterialID = $item->id;
+                    $materialfield->locale = $this->locale;
+                    $materialfield->FieldID = $field->id;
+                    $materialfield->Active = 1;
+                    $materialfield->save();
+                }
+
+                // Render input field view
+                $fieldsHTML .= $inputField->render($this->renderer, $this->query, $materialfield);
+            } else {
+                // Render input field view
+                $fieldsHTML .= $inputField->render($this->renderer, $this->query, $item);
+            }
         }
 
         // Render fields row view
