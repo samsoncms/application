@@ -87,7 +87,7 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
         // Render pager and collection
         return array(
             $prefix.'html' => $this->render(),
-            $prefix.'pager' => $this->pager->total > 1 ? $this->pager->toHTML() : ''
+            $prefix.'pager' => $this->pager->total > 1 ? $this->pager->toHTML() : ' '
         );
     }
 
