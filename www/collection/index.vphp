@@ -1,28 +1,40 @@
 <!-- Top section -->
 <section class="top clearfix">
 
-	<!-- Header block -->	
-	<h1 title="<?php iv('description')?>">
-        <i class="icon2 icon_16x16 left icon2-<?php iv('icon')?>"></i>
-        <?php iv('name')?>
-    </h1>
-	<!-- End of Header block -->
+    <div class="top-inline-block">
+        <!-- Header block -->
+        <h1 title="<?php iv('description')?>">
+            <i class="icon2 icon_16x16 left icon2-<?php iv('icon')?>"></i>
+            <?php iv('name')?>
+        </h1>
+        <!-- End of Header block -->
 
-    <?php echo m('template')->view('container/list/panel')->output()?>
+        <?php echo m('template')->view('container/list/panel')->output()?>
+    </div>
 
-    <!-- Pager block -->
-    <?php if(isv('collection_pager')):?>
-        <ul class="table-pager">
-            <?php v('collection_pager')?>
-        </ul>
-    <?php endif?>
-    <!-- End of Pager block -->
-	
-</section>	
+    <div class="top-inline-block">
+        <!-- Pager size block -->
+        <?php if(isv('collection_sizeBlock')):?>
+            <div class="pager-size-block">
+                <?php v('collection_sizeBlock')?>
+            </div>
+        <?php endif?>
+        <!-- End of Pager size block -->
+
+        <!-- Pager block -->
+        <?php if(isv('collection_pager')):?>
+            <ul class="table-pager">
+                <?php v('collection_pager')?>
+            </ul>
+        <?php endif?>
+        <!-- End of Pager block -->
+    </div>
+
+</section>
 <!-- End of Top section -->
 
 <!-- Content section -->
 <section id="content">
 	<?php v('collection_html'); ?>
 </section>
-<!-- End of Content section -->		
+<!-- End of Content section -->
