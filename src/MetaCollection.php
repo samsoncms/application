@@ -87,8 +87,16 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
         // Render pager and collection
         return array(
             $prefix.'html' => $this->render(),
-            $prefix.'pager' => $this->pager->total > 1 ? $this->pager->toHTML() : ' '
+            $prefix.'pager' => $this->pager->total > 1 ? $this->pager->toHTML() : ' ',
+            $prefix.'sizeBlock' => $this->renderSizeBlock()
         );
+    }
+
+    public function renderSizeBlock()
+    {
+        $url = url()->build($this->renderer->id.'/collection/0/0/1').'?pagerSize=';
+
+        return $this->renderer->view('collection/sizeblock')->url($url)->output();
     }
 
     /**
