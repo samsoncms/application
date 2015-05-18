@@ -94,7 +94,7 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
 
     public function renderSizeBlock()
     {
-        $url = url()->build($this->renderer->id.'/collection/0/0/1').'?pagerSize=';
+        $url = url()->build($this->renderer->id.'/collection').'?pagerSize=';
 
         return $this->renderer->view('collection/sizeblock')->url($url)->output();
     }
