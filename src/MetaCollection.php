@@ -41,6 +41,9 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
     /** @var string Current collection locale */
     protected $locale;
 
+    /** @var array $pagerSizes Collection of possible page sizes */
+    protected $pagerSizes = array(10, 15, 20, 50, 100);
+
     /**
      * Generic collection constructor
      * @param RenderInterface $renderer View render object
@@ -94,9 +97,32 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
 
     public function renderSizeBlock()
     {
+        /** @var string $url Address of async collection renderer with page size GET parameter */
         $url = url()->build($this->renderer->id.'/collection').'?pagerSize=';
 
-        return $this->renderer->view('collection/sizeblock')->url($url)->output();
+        /** @var string $options HTML content of options */
+        $options = '';
+
+        /** @var int $total Collection items count */
+        $total = $this->pager->page_size * $this->pager->total;
+
+        foreach ($this->pagerSizes as $optValue) {
+            // Show default option as selected
+            $optSelected = $this->pager->page_size == $optValue ? 'selected' : '';
+
+            // Is necessary to show current option
+            $options .= $total >= $optValue
+                ? $this->renderer->view('collection/sizeblock_option')
+                    ->optVal($optValue)
+                    ->optSelected($optSelected)
+                    ->output()
+                : '';
+        }
+
+        // Show block only if we have some options
+        return $options != ''
+            ? $this->renderer->view('collection/sizeblock')->url($url)->options($options)->output()
+            : '';
     }
 
     /**
