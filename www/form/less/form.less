@@ -1,0 +1,71 @@
+.samsoncms-form {
+  .template-block {
+    width: 100%;
+
+    .template-form {
+      padding: 0 @padding;
+    }
+  }
+
+  .tab-header {
+    position: relative;
+    min-height: 40px;
+
+    .tab-toggle-button {
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      &:before {
+        position: absolute;
+        font-size: 40px;
+        color: lighten(@theme-color, 20%);
+        content: "\f107";
+        font-family: FontAwesome;
+      }
+
+      &.collapsed {
+        &:before {
+          content: "\f104";
+        }
+      }
+
+      &:hover {
+        &:before {
+          color: lighten(@theme-color, 40%);
+        }
+      }
+    }
+
+    .sub-tab-header {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 5px;
+      &:last-child {
+        margin-right: 0;
+      }
+      span {
+        cursor: pointer;
+        padding: 3px;
+        border-radius: 3px;
+        &.active {
+          color: #ffffff;
+          background: lighten(@theme-color, 20%);
+        }
+      }
+    }
+
+    span {
+      display: block;
+    }
+  }
+
+  .sub-tab-content {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+}

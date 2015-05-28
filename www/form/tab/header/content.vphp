@@ -1,0 +1,1 @@
+<span class="<?php iv('headUrl') ?>"><?php iv('headName') ?></span>

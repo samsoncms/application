@@ -1,0 +1,3 @@
+<div class="template-form">
+    <?php iv('content') ?>
+</div>

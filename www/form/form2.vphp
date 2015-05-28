@@ -1,0 +1,3 @@
+<div class="samsoncms-form">
+    <?php iv('tabs') ?>
+</div>
