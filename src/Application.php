@@ -4,6 +4,7 @@ namespace samsoncms;
 use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
 use samson\pager\Pager;
+use samsoncms\form\Form;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -28,6 +29,9 @@ class Application extends CompressableExternalModule
 
     /** @var string Collection class name for rendering entities collection */
     protected $collectionClassName = 'Collection';
+
+    /** @var string Form class name for rendering entities form */
+    protected $formClassName = '\samsoncms\form\Form';
 
     /** @var int Collection page size */
     protected $pageSize = 10;
@@ -147,6 +151,19 @@ class Application extends CompressableExternalModule
     public function __async_edit2($identifier)
     {
 
+    }
+
+    public function __form($entityID)
+    {
+        $entity = null;
+        $formView = '';
+
+        if (dbQuery($this->entity)->id($entityID)->first($entity)) {
+            $form = new $this->formClassName($this, new dbQuery($this->entity), $entity);
+            $formView = $form->render();
+        }
+
+        $this->view('form/index2')->formContent($formView);
     }
 
     /**
