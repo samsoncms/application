@@ -1,0 +1,8 @@
+<div class="template-block" id="<?php iv('tabUrl') ?>">
+    <div class="template-block-header">
+        <?php iv('header') ?>
+    </div>
+    <div class="template-block-content">
+        <?php iv('content') ?>
+    </div>
+</div>
