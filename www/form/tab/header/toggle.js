@@ -8,17 +8,28 @@ s('.samsoncms-form').pageInit(function (form) {
         var content = s('.template-block-content', parent);
 
         link.click(function () {
+            link.hasClass('collapsed') ? content.fadeIn('fast') : content.fadeOut('fast');
             link.toggleClass('collapsed');
-            $(content.DOMElement).slideToggle(400);
+
+            //$(content.DOMElement).slideToggle(400);
         });
     });
 
     s('.sub-tab-header span', form).each(function (link) {
         link.click(function (link) {
             var parent = link.parent('template-block');
+
             s('.sub-tab-header span', parent).removeClass('active');
+            s('.sub-tab-content.active', parent).hide();
             s('.sub-tab-content', parent).removeClass('active');
-            s(link.className()).addClass('active');
+
+            var tab = s(link.className());
+
+            tab.addClass('active');
+            tab.fadeIn('fast', function(){
+                SamsonCMS_Input.redraw();
+            });
+
             link.addClass('active');
         });
     });
@@ -32,4 +43,6 @@ s('.samsoncms-form').pageInit(function (form) {
             s('.sub-tab-content', block).addClass('active');
         }
     });
+
+    //SamsonCMS_Input.redraw();
 });
