@@ -20,11 +20,11 @@ class Form
 {
     public $indexView = 'form/form2';
 
-    /** @var Generic[]  */
-    protected $tabs = array();
-
     /** @var Record Entity for each form is created */
-    protected $entity;
+    public $entity;
+
+    /** @var Generic[]  */
+    public $tabs = array();
 
     /** @var \samson\core\IViewable Module for html views rendering */
     protected $renderer;
