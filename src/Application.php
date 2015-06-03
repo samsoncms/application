@@ -116,7 +116,7 @@ class Application extends CompressableExternalModule
         $entitiesCollection = new $this->collectionClassName(
             $this,
             new dbQuery($this->entity),
-            new Pager($page, $this->pageSize, 'user/collection')
+            new Pager($page, $this->pageSize, $this->id . '/collection')
         );
 
         // Generate Asynchronous response array
