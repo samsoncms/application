@@ -28,7 +28,7 @@ class Application extends CompressableExternalModule
     protected $entity = 'material';
 
     /** @var string Collection class name for rendering entities collection */
-    protected $collectionClass = 'Collection';
+    protected $collectionClass;
 
     /** @var string Form class name for rendering entities form */
     protected $formClassName = '\samsoncms\form\Form';
