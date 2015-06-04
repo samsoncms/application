@@ -140,9 +140,17 @@ class Generic
                     'field'
                 );
             }
-        } else if (isset($object[$this->name])){ // Or just show a value of entity object field
-            $renderer->set('field_html', $object[$this->name]);
+        } else {
+            // If we have received material field not regular table record
+            if ($object instanceof \samson\activerecord\materialfield) {
+                // TODO: This is not correct to show "Value" this should be done from InputField class somehow
+                $renderer->set('field_html', strlen($object['Value']) ? $object['Value'] : $object['numeric_value']);
+            } else if (isset($object[$this->name])){ // Or just show a value of entity object field
+                $renderer->set('field_html', $object[$this->name]);
+            }
         }
+
+        //trace($this->name.'-'.$object[$this->name].'-'.get_class($object), true);
 
         // Render input field view
         return $renderer
