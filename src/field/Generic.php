@@ -147,7 +147,7 @@ class Generic
                 // TODO: This is not correct to show "Value" this should be done from InputField class somehow
                 $value = '';
                 if (strlen($object['Value']) ) {
-                    $value = $object['Value']'';
+                    $value = $object['Value'];
                 } else if ($object['numeric_value'] > 0){
                     $value = $object['numeric_value'];
                 }
