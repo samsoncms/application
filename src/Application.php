@@ -28,7 +28,7 @@ class Application extends CompressableExternalModule
     protected $entity = 'material';
 
     /** @var string Collection class name for rendering entities collection */
-    protected $collectionClassName = 'Collection';
+    protected $collectionClass = 'Collection';
 
     /** @var string Form class name for rendering entities form */
     protected $formClassName = '\samsoncms\form\Form';
@@ -75,11 +75,13 @@ class Application extends CompressableExternalModule
             self::$loaded[$this->id] = & $this;
         }
 
-        // TODO: WTF? Why it does not use $this namespace?
-        // Temporary build collection class name manually
-        $className = get_class($this);
-        $namespace = substr($className, 0, strrpos($className, '\\'));
-        $this->collectionClassName = $namespace.'\\Collection';
+        // If now collection class is set
+        if (!isset($this->collectionClass{0})) {
+            // Temporary build collection class name manually
+            $className = get_class($this);
+            $namespace = substr($className, 0, strrpos($className, '\\'));
+            $this->collectionClass = $namespace . '\\Collection';
+        }
 
         parent::__construct($path, $vid, $resources);
     }
@@ -113,7 +115,7 @@ class Application extends CompressableExternalModule
     public function __async_collection($page = 1)
     {
         // Create entities collection from defined parameters
-        $entitiesCollection = new $this->collectionClassName(
+        $entitiesCollection = new $this->collectionClass(
             $this,
             new dbQuery($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
