@@ -1,6 +1,6 @@
 <section class="top clearfix">
     <div>
-        <?php t('Форма редактирования сущности') ?>
+        <?php t('Форма редактирования сущности') ?> # <?php v('entityId') ?>
     </div>
 </section>
 <section id="content">
