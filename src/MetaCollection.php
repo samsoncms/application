@@ -95,6 +95,10 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
         );
     }
 
+    /**
+     * Render pagination size block
+     * @return string pagination size block
+     */
     public function renderSizeBlock()
     {
         /** @var string $url Address of async collection renderer with page size GET parameter */
@@ -158,6 +162,7 @@ class MetaCollection extends \samsonos\cms\collection\Filtered
             // Find additional field by Name
             $field = null;
             if (dbQuery('field')->cond('Name', $inputField->name)->first($field)) {
+
                 // Create material field query to get additional field record
                 $query = dbQuery('materialfield')
                     ->cond('MaterialID', $item->id)
