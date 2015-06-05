@@ -155,17 +155,19 @@ class Application extends CompressableExternalModule
 
     }
 
-    public function __form($entityID)
+    public function __form($entityID = 0)
     {
         $entity = null;
-        $formView = '';
 
-        if (dbQuery($this->entity)->id($entityID)->first($entity)) {
-            $form = new $this->formClassName($this, new dbQuery($this->entity), $entity);
-            $formView = $form->render();
+        if (!dbQuery($this->entity)->id($entityID)->first($entity)) {
+            $entity = new $this->entity(false);
+            $entity->save();
         }
 
-        $this->view('form/index2')->formContent($formView);
+        $form = new $this->formClassName($this, new dbQuery($this->entity), $entity);
+        $formView = $form->render();
+
+        $this->view('form/index2')->entityId($entity->id)->formContent($formView);
     }
 
     /**
