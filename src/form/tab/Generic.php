@@ -38,6 +38,9 @@ abstract class Generic
     /** @var Record Tab for each form is created */
     protected $entity;
 
+    /** @var bool Tab visibility status */
+    public $show = true;
+
     /**
      * @param RenderInterface $renderer
      * @param QueryInterface $query
@@ -61,11 +64,15 @@ abstract class Generic
      */
     public function render()
     {
-        return $this->renderer->view($this->indexView)
-            ->content($this->content())
-            ->header($this->header())
-            ->tabUrl($this->id)
-            ->output();
+        if ($this->show) {
+            return $this->renderer->view($this->indexView)
+                ->content($this->content())
+                ->header($this->header())
+                ->tabUrl($this->id)
+                ->output();
+        } else {
+            return '';
+        }
     }
 
     /**
