@@ -25,7 +25,7 @@ class Application extends CompressableExternalModule
     public $icon = 'book';
 
     /** @var string Entity class name */
-    protected $entity = 'material';
+    protected $entity = '\samson\activerecord\material';
 
     /** @var string Collection class name for rendering entities collection */
     protected $collectionClass;
