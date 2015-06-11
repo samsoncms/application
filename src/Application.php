@@ -209,7 +209,10 @@ class Application extends CompressableExternalModule
     {
         parent::__wakeup();
 
-        // Add instance to static collection
-        self::$loaded[ $this->id ] = & $this;
+        // Save CMSApplication instance
+        if (!in_array(get_class($this), array(__CLASS__, 'samson\\cms\\App'))) {
+            // Add instance to static collection
+            self::$loaded[ $this->id ] = & $this;
+        }
     }
 }
