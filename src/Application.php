@@ -24,6 +24,9 @@ class Application extends CompressableExternalModule
     /** @var string Application main menu icon */
     public $icon = 'book';
 
+    /** @var \samsonframework\orm\QueryInterface */
+    protected $db;
+
     /** @var string Entity class name */
     protected $entity = '\samson\activerecord\material';
 
@@ -83,9 +86,13 @@ class Application extends CompressableExternalModule
             $this->collectionClass = $namespace . '\\Collection';
         }
 
+        // Create database object
+        $this->db = dbQuery('material');
+
         parent::__construct($path, $vid, $resources);
     }
 
+    /** Module initialization */
     public function init(array $params = array())
     {
         \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
@@ -129,12 +136,20 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Delete entity
+     * Generic entity delete controller action
      * @return array Asynchronous response array
      */
     public function __async_remove2($identifier)
     {
+        /** @var \samsonframework\orm\Record $entity Find database record by identifier */
+        $entity = null;
+        if ($this->db->className($this->entity)->id($identifier)->first($entity)) {
+            $entity->delete();
+            return array('status' => 1);
+        }
 
+        // Deletion failed
+        return array('status' => 0, 'error' => $this->entity.'#'.$id.' entity not found');
     }
 
     /**
