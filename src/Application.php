@@ -85,6 +85,15 @@ class Application extends CompressableExternalModule
             $this->collectionClass = $namespace . '\\Collection';
         }
 
+        // Check form class configuration
+        if (!class_exists($this->formClassName)) {
+            e(
+                '## application form class(##) is not found',
+                E_CORE_ERROR,
+                array($this->id, $this->formClassName)
+            );
+        }
+
         // Create database object
         $this->db = new dbQuery('material');
 
@@ -139,13 +148,14 @@ class Application extends CompressableExternalModule
 
     /**
      * Generic entity delete controller action
+     * @param int $identifier Entity identifier
      * @return array Asynchronous response array
      */
     public function __async_remove2($identifier)
     {
         /** @var \samsonframework\orm\Record $entity Find database record by identifier */
         $entity = null;
-        if ($this->db->className($this->entity)->id($identifier)->first($entity)) {
+        if ($this->findEntityByID($identifier, $entity)) {
             $entity->delete();
             return array('status' => 1);
         }
@@ -155,7 +165,8 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Clone sentity
+     * Clone entity
+     * @param int $identifier Entity identifier
      * @return array Asynchronous response array
      */
     public function __async_clone2($identifier)
@@ -165,6 +176,7 @@ class Application extends CompressableExternalModule
 
     /**
      * Edit entity
+     * @param int $identifier Entity identifier
      * @return array Asynchronous response array
      */
     public function __async_edit2($identifier)
@@ -172,20 +184,32 @@ class Application extends CompressableExternalModule
 
     }
 
-    /** Generic form rendering controller action */
-    public function __form($entityID = 0)
+    /**
+     * Generic form rendering controller action
+     * @param int $identifier Entity identifier, if 0 is passed or nothing a new entity creation
+     *                        form should be shown
+     */
+    public function __form($identifier = 0)
     {
+        // If identifier is passed and entity is not found by this identifier
         $entity = null;
-
-        if (!$this->db->className($this->entity)->id($entityID)->first($entity)) {
-            $entity = new $this->entity(false);
+        if (func_num_args() == 1 && !$this->findEntityByID($identifier, $entity)) {
+            // Create new entity
+            $entity = new $this->entity();
             $entity->save();
         }
+        // Otherwise we have found entity and its stored at $entity
+        // TODO: what to render if entity is not found
 
+        // Create form object
         $form = new $this->formClassName($this, $this->db->className($this->entity), $entity);
         $formView = $form->render();
 
-        $this->view('form/index2')->entityId($entity->id)->formContent($formView);
+        // Render view
+        $this->view('form/index2')
+            ->set('entityId', $entity->id)
+            ->set('formContent', $formView)
+        ;
     }
 
     /**
@@ -232,5 +256,16 @@ class Application extends CompressableExternalModule
             // Add instance to static collection
             self::$loaded[ $this->id ] = & $this;
         }
+    }
+
+    /**
+     * Get entity from database by identifier
+     * @param int $identifier Entity identifier
+     * @param \samsonframework\orm\Record Found entity
+     * @return boolean
+     */
+    protected function findEntityByID($identifier, & $entity)
+    {
+        return $this->db->className($this->entity)->id($identifier)->first($entity);
     }
 }
