@@ -207,6 +207,7 @@ class Application extends CompressableExternalModule
 
         // Render view
         $this->view('form/index2')
+            ->title($this->description)
             ->set('entityId', $entity->id)
             ->set($entity, 'entity')
             ->set('formContent', $formView)
