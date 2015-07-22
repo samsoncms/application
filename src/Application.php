@@ -266,8 +266,11 @@ class Application extends CompressableExternalModule
      * @param \samsonframework\orm\Record Found entity
      * @return boolean
      */
-    protected function findEntityByID($identifier, & $entity)
+    protected function findEntityByID($identifier, & $entity, $entityName = null)
     {
-        return $this->query->className($this->entity)->id($identifier)->first($entity);
+        // If no specific entity name is passed use application default entity name
+        $entityName = !isset($entityName) ? $this->entity : $entityName;
+
+        return $this->query->className($entityName)->id($identifier)->first($entity);
     }
 }
