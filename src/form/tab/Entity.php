@@ -45,9 +45,9 @@ class Entity extends Generic
         $view = '';
         foreach ($this->fields as $field) {
             // Render field header
-            $view .= $field->renderHeader($this->renderer);
+            $view .= '<div class="template-form-input-group">'.$field->renderHeader($this->renderer);
             // Render field content
-            $view .= $field->render($this->renderer, $this->query, $this->entity);
+            $view .= $field->render($this->renderer, $this->query, $this->entity).'</div>';
         }
 
         // Render tab content
