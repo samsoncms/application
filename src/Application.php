@@ -182,7 +182,7 @@ class Application extends CompressableExternalModule
             $entity->save();
         }
 
-        $form = new $this->formClassName($this, $this->db->className, $entity);
+        $form = new $this->formClassName($this, $this->db->className($this->entity), $entity);
         $formView = $form->render();
 
         $this->view('form/index2')->entityId($entity->id)->formContent($formView);
