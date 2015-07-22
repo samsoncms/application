@@ -3,11 +3,12 @@
  */
 
 s('.samsoncms-form').pageInit(function (form) {
-    s('.tab-header', form).each(function (link) {
+    s('.tab-header', form).each(function (header) {
+        var link = s('.tab-toggle-button', header);
         var parent = link.parent('template-block');
         var content = s('.template-block-content', parent);
 
-        link.click(function () {
+        header.click(function () {
             link.hasClass('collapsed') ? content.fadeIn('fast') : content.fadeOut('fast');
             link.toggleClass('collapsed');
 
