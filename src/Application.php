@@ -105,12 +105,15 @@ class Application extends CompressableExternalModule
      */
     public function __handler()
     {
+        $description = t($this->description, true);
+        $name = t($this->description, true);
+
         // Prepare view
-        $this->title(t($this->description, true))
+        $this->title($description)
             ->view('collection/index')
-            ->set('name', t($this->name, true))
+            ->set('name', $name)
             ->set('icon', $this->icon)
-            ->set('description', t($this->description, true))
+            ->set('description', $description)
             ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
         ;
     }
@@ -170,6 +173,7 @@ class Application extends CompressableExternalModule
 
     }
 
+    /** Generic form rendering controller action */
     public function __form($entityID = 0)
     {
         $entity = null;
