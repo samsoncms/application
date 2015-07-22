@@ -1,7 +1,7 @@
 <section class="top clearfix">
-    <div>
-        <?php t('Форма редактирования сущности') ?> # <?php v('entityId') ?>
-    </div>
+    <h1>
+        <?php t('Форма редактирования сущности') ?> #<?php v('entity_id') ?>
+    </h1>
 </section>
 <section id="content">
     <div class="application-form">

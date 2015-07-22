@@ -185,33 +185,46 @@ class Application extends CompressableExternalModule
     }
 
     /**
+     * New entity creation generic controller action
+     * @param int $parentID Parent identifier
+     */
+    public function __new($parentID = null)
+    {
+        // Create new entity
+        $entity = new $this->entity();
+
+        // Persist
+        $entity->save();
+
+        // Go to correct form URL
+        url()->redirect($this->id . '/form/' . $entity->id);
+    }
+
+    /**
      * Generic form rendering controller action
      * @param int $identifier Entity identifier, if 0 is passed or nothing a new entity creation
      *                        form should be shown
+     * @return bool Controller action result
      */
-    public function __form($identifier = 0)
+    public function __form($identifier)
     {
         // If identifier is passed and entity is not found by this identifier
         $entity = null;
-        if (func_num_args() == 1 && !$this->findEntityByID($identifier, $entity)) {
-            // Create new entity
-            $entity = new $this->entity();
-            $entity->save();
+        if ($this->findEntityByID($identifier, $entity)) {
+
+            // Create form object
+            $form = new $this->formClassName($this, $this->query->className($this->entity), $entity);
+            $formView = $form->render();
+
+            // Render view
+            return $this->view('form/index2')
+                ->title($this->description)
+                ->set('entityId', $entity->id)
+                ->set($entity, 'entity')
+                ->set('formContent', $formView);
         }
-        // Otherwise we have found entity and its stored at $entity
-        // TODO: what to render if entity is not found
 
-        // Create form object
-        $form = new $this->formClassName($this, $this->query->className($this->entity), $entity);
-        $formView = $form->render();
-
-        // Render view
-        $this->view('form/index2')
-            ->title($this->description)
-            ->set('entityId', $entity->id)
-            ->set($entity, 'entity')
-            ->set('formContent', $formView)
-        ;
+        return A_FAILED;
     }
 
     /**
@@ -258,6 +271,29 @@ class Application extends CompressableExternalModule
             // Add instance to static collection
             self::$loaded[ $this->id ] = & $this;
         }
+    }
+
+    /**
+     * This method is a shortcut for asynchronous controller actions to avoided repeated
+     * code when we search for an entity by identifier and form asynchronous $result array.
+     *
+     * @see findEntityByID()
+     * @param $identifier
+     * @param $entity
+     * @param array $result
+     * @param null $entityName
+     * @return bool
+     */
+    protected function findAsyncEntityByID($identifier, & $entity, array & $result = array(), $entityName = null)
+    {
+        if ($this->findEntityByID($identifier, $entity, $entityName)) {
+            $result['status'] = true;
+        } else { // Entity not found
+            $result['status'] = false;
+            $result['error'] = 'Material entity #' . $identifier . ' not found';
+        }
+
+        return $result['status'];
     }
 
     /**
