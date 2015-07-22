@@ -15,10 +15,17 @@ use samsonframework\orm\Record;
 
 abstract class Generic
 {
+    /** @var string Default path to main view */
     public $indexView = 'form/tab/index';
-    public $headerIndexView = 'form/tab/header/index';
-    public $headerContentView = 'form/tab/header/content';
+
+    /** @var string Default path to content view */
     public $contentView = 'form/tab/main/content';
+
+    /** @var string Default path to tab header view */
+    public $headerIndexView = 'form/tab/header/index';
+
+    /** @var string Default path to tab content view */
+    public $headerContentView = 'form/tab/header/content';
 
     /** @var string Tab name */
     protected $name = '';
@@ -56,6 +63,11 @@ abstract class Generic
 
         // Set db entity of this tab
         $this->entity = $entity;
+
+        // If identifier is not specified
+        if (!isset($this->id{0})) {
+            $this->id = str_ireplace('\\', '_', __CLASS__);
+        }
     }
 
     /**
