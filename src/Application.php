@@ -4,7 +4,6 @@ namespace samsoncms;
 use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
 use samson\pager\Pager;
-use samsoncms\form\Form;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -87,7 +86,7 @@ class Application extends CompressableExternalModule
         }
 
         // Create database object
-        $this->db = dbQuery('material');
+        $this->db = new dbQuery('material');
 
         parent::__construct($path, $vid, $resources);
     }
@@ -127,7 +126,7 @@ class Application extends CompressableExternalModule
         // Create entities collection from defined parameters
         $entitiesCollection = new $this->collectionClass(
             $this,
-            new dbQuery($this->entity),
+            $this->db->className($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
         );
 
@@ -178,12 +177,12 @@ class Application extends CompressableExternalModule
     {
         $entity = null;
 
-        if (!dbQuery($this->entity)->id($entityID)->first($entity)) {
+        if (!$this->db->className($this->entity)->id($entityID)->first($entity)) {
             $entity = new $this->entity(false);
             $entity->save();
         }
 
-        $form = new $this->formClassName($this, new dbQuery($this->entity), $entity);
+        $form = new $this->formClassName($this, $this->db->className, $entity);
         $formView = $form->render();
 
         $this->view('form/index2')->entityId($entity->id)->formContent($formView);
