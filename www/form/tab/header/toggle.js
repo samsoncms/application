@@ -3,7 +3,7 @@
  */
 
 s('.samsoncms-form').pageInit(function (form) {
-    s('.tab-toggle-button', form).each(function (link) {
+    s('.tab-header', form).each(function (link) {
         var parent = link.parent('template-block');
         var content = s('.template-block-content', parent);
 
