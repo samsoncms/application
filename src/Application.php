@@ -24,7 +24,7 @@ class Application extends CompressableExternalModule
     public $icon = 'book';
 
     /** @var \samsonframework\orm\QueryInterface */
-    protected $db;
+    protected $query;
 
     /** @var string Entity class name */
     protected $entity = '\samson\activerecord\material';
@@ -95,7 +95,7 @@ class Application extends CompressableExternalModule
         }
 
         // Create database object
-        $this->db = new dbQuery('material');
+        $this->query = new dbQuery('material');
 
         parent::__construct($path, $vid, $resources);
     }
@@ -135,7 +135,7 @@ class Application extends CompressableExternalModule
         // Create entities collection from defined parameters
         $entitiesCollection = new $this->collectionClass(
             $this,
-            $this->db->className($this->entity),
+            $this->query->className($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
         );
 
@@ -202,7 +202,7 @@ class Application extends CompressableExternalModule
         // TODO: what to render if entity is not found
 
         // Create form object
-        $form = new $this->formClassName($this, $this->db->className($this->entity), $entity);
+        $form = new $this->formClassName($this, $this->query->className($this->entity), $entity);
         $formView = $form->render();
 
         // Render view
@@ -266,6 +266,6 @@ class Application extends CompressableExternalModule
      */
     protected function findEntityByID($identifier, & $entity)
     {
-        return $this->db->className($this->entity)->id($identifier)->first($entity);
+        return $this->query->className($this->entity)->id($identifier)->first($entity);
     }
 }
