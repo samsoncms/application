@@ -161,7 +161,7 @@ class Application extends CompressableExternalModule
         }
 
         // Deletion failed
-        return array('status' => 0, 'error' => $this->entity.'#'.$id.' entity not found');
+        return array('status' => 0, 'error' => $this->entity.'#'.$identifier.' entity not found');
     }
 
     /**
@@ -261,7 +261,7 @@ class Application extends CompressableExternalModule
         }
     }
 
-    /** Deserialization handler */
+    /** De-serialization handler */
     public function __wakeup()
     {
         parent::__wakeup();
