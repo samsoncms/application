@@ -12,15 +12,13 @@ use samsonframework\orm\QueryInterface;
 use samsonframework\orm\Record;
 
 /**
- *
+ * Generic database entity edition tab
  * @package samsoncms\form\tab
  */
 class Entity extends Generic
 {
     /** @var string Tab name or identifier */
     protected $name = 'Entity Tab';
-
-    protected $id = 'entity_tab';
 
     /** @var Generic[] Collection of entity fields that must be rendered in tab content */
     protected $fields = array();
@@ -43,13 +41,16 @@ class Entity extends Generic
     /** @inheritdoc */
     public function content()
     {
+        // Iterate all entity fields
         $view = '';
-
         foreach ($this->fields as $field) {
-            $view .= $field->renderHeader($this->renderer);
-            $view .= $field->render($this->renderer, $this->query, $this->entity);
+            // Render field header
+            $view .= '<div class="template-form-input-group">'.$field->renderHeader($this->renderer);
+            // Render field content
+            $view .= $field->render($this->renderer, $this->query, $this->entity).'</div>';
         }
 
+        // Render tab content
         return $this->renderer->view($this->contentView)->content($view)->output();
     }
 }

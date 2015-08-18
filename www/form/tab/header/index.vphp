@@ -1,5 +1,5 @@
 <div class="tab-header">
     <?php iv('tabHeader') ?>
     <?php iv('tabSubHeader') ?>
-    <span class="tab-toggle-button"></span>
+    <span class="tab-toggle-button collapsed"></span>
 </div>

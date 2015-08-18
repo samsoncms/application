@@ -4,7 +4,6 @@ namespace samsoncms;
 use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
 use samson\pager\Pager;
-use samsoncms\form\Form;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -23,6 +22,9 @@ class Application extends CompressableExternalModule
 
     /** @var string Application main menu icon */
     public $icon = 'book';
+
+    /** @var \samsonframework\orm\QueryInterface */
+    protected $query;
 
     /** @var string Entity class name */
     protected $entity = '\samson\activerecord\material';
@@ -83,9 +85,22 @@ class Application extends CompressableExternalModule
             $this->collectionClass = $namespace . '\\Collection';
         }
 
+        // Check form class configuration
+        if (!class_exists($this->formClassName)) {
+            e(
+                '## application form class(##) is not found',
+                E_CORE_ERROR,
+                array($this->id, $this->formClassName)
+            );
+        }
+
+        // Create database object
+        $this->query = new dbQuery('material');
+
         parent::__construct($path, $vid, $resources);
     }
 
+    /** Module initialization */
     public function init(array $params = array())
     {
         \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
@@ -98,12 +113,15 @@ class Application extends CompressableExternalModule
      */
     public function __handler()
     {
+        $description = t($this->description, true);
+        $name = t($this->description, true);
+
         // Prepare view
-        $this->title(t($this->description, true))
+        $this->title($description)
             ->view('collection/index')
-            ->set('name', t($this->name, true))
+            ->set('name', $name)
             ->set('icon', $this->icon)
-            ->set('description', t($this->description, true))
+            ->set('description', $description)
             ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
         ;
     }
@@ -117,7 +135,7 @@ class Application extends CompressableExternalModule
         // Create entities collection from defined parameters
         $entitiesCollection = new $this->collectionClass(
             $this,
-            new dbQuery($this->entity),
+            $this->query->className($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
         );
 
@@ -129,16 +147,26 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Delete entity
+     * Generic entity delete controller action
+     * @param int $identifier Entity identifier
      * @return array Asynchronous response array
      */
     public function __async_remove2($identifier)
     {
+        /** @var \samsonframework\orm\Record $entity Find database record by identifier */
+        $entity = null;
+        if ($this->findEntityByID($identifier, $entity)) {
+            $entity->delete();
+            return array('status' => 1);
+        }
 
+        // Deletion failed
+        return array('status' => 0, 'error' => $this->entity.'#'.$identifier.' entity not found');
     }
 
     /**
-     * Clone sentity
+     * Clone entity
+     * @param int $identifier Entity identifier
      * @return array Asynchronous response array
      */
     public function __async_clone2($identifier)
@@ -148,6 +176,7 @@ class Application extends CompressableExternalModule
 
     /**
      * Edit entity
+     * @param int $identifier Entity identifier
      * @return array Asynchronous response array
      */
     public function __async_edit2($identifier)
@@ -155,19 +184,47 @@ class Application extends CompressableExternalModule
 
     }
 
-    public function __form($entityID = 0)
+    /**
+     * New entity creation generic controller action
+     * @param int $parentID Parent identifier
+     */
+    public function __new($parentID = null)
     {
-        $entity = null;
+        // Create new entity
+        $entity = new $this->entity();
 
-        if (!dbQuery($this->entity)->id($entityID)->first($entity)) {
-            $entity = new $this->entity(false);
-            $entity->save();
+        // Persist
+        $entity->save();
+
+        // Go to correct form URL
+        url()->redirect($this->id . '/form/' . $entity->id);
+    }
+
+    /**
+     * Generic form rendering controller action
+     * @param int $identifier Entity identifier, if 0 is passed or nothing a new entity creation
+     *                        form should be shown
+     * @return bool Controller action result
+     */
+    public function __form($identifier)
+    {
+        // If identifier is passed and entity is not found by this identifier
+        $entity = null;
+        if ($this->findEntityByID($identifier, $entity)) {
+
+            // Create form object
+            $form = new $this->formClassName($this, $this->query->className($this->entity), $entity);
+            $formView = $form->render();
+
+            // Render view
+            return $this->view('form/index2')
+                ->title($this->description)
+                ->set('entityId', $entity->id)
+                ->set($entity, 'entity')
+                ->set('formContent', $formView);
         }
 
-        $form = new $this->formClassName($this, new dbQuery($this->entity), $entity);
-        $formView = $form->render();
-
-        $this->view('form/index2')->entityId($entity->id)->formContent($formView);
+        return A_FAILED;
     }
 
     /**
@@ -204,7 +261,7 @@ class Application extends CompressableExternalModule
         }
     }
 
-    /** Deserialization handler */
+    /** De-serialization handler */
     public function __wakeup()
     {
         parent::__wakeup();
@@ -214,5 +271,42 @@ class Application extends CompressableExternalModule
             // Add instance to static collection
             self::$loaded[ $this->id ] = & $this;
         }
+    }
+
+    /**
+     * This method is a shortcut for asynchronous controller actions to avoided repeated
+     * code when we search for an entity by identifier and form asynchronous $result array.
+     *
+     * @see findEntityByID()
+     * @param $identifier
+     * @param $entity
+     * @param array $result
+     * @param null $entityName
+     * @return bool
+     */
+    protected function findAsyncEntityByID($identifier, & $entity, array & $result = array(), $entityName = null)
+    {
+        if ($this->findEntityByID($identifier, $entity, $entityName)) {
+            $result['status'] = true;
+        } else { // Entity not found
+            $result['status'] = false;
+            $result['error'] = 'Material entity #' . $identifier . ' not found';
+        }
+
+        return $result['status'];
+    }
+
+    /**
+     * Get entity from database by identifier
+     * @param int $identifier Entity identifier
+     * @param \samsonframework\orm\Record Found entity
+     * @return boolean
+     */
+    protected function findEntityByID($identifier, & $entity, $entityName = null)
+    {
+        // If no specific entity name is passed use application default entity name
+        $entityName = !isset($entityName) ? $this->entity : $entityName;
+
+        return $this->query->className($entityName)->id($identifier)->first($entity);
     }
 }

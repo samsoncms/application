@@ -5,7 +5,6 @@
  * Date: 26.05.2015
  * Time: 17:56
  */
-
 namespace samsoncms\form\field;
 
 
