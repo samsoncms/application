@@ -3,14 +3,31 @@
  */
 
 s('.samsoncms-form').pageInit(function (form) {
+    var hash = window.location.hash;
+    var currentBlock = s(hash);
+    if (hash == '') {
+        currentBlock = s('.template-block:first-child');
+        hash = currentBlock.a('id');
+    }
+    window.location.hash = hash;
+    s('.tab-toggle-button', currentBlock).hasClass('collapsed') ? s('.template-block-content', currentBlock).fadeIn('fast') : s('.template-block-content', currentBlock).fadeOut('fast');
+    s('.tab-toggle-button', currentBlock).toggleClass('collapsed');
+    s(window).scrollTop(currentBlock.offset());
+
+
     s('.tab-header', form).each(function (header) {
         var link = s('.tab-toggle-button', header);
         var parent = link.parent('template-block');
         var content = s('.template-block-content', parent);
 
-        header.click(function () {
+        link.click(function () {
+
             link.hasClass('collapsed') ? content.fadeIn('fast') : content.fadeOut('fast');
             link.toggleClass('collapsed');
+
+            if (!link.hasClass('collapsed')) {
+                window.location.hash = parent.a('id');
+            }
 
             //$(content.DOMElement).slideToggle(400);
         });
@@ -27,11 +44,9 @@ s('.samsoncms-form').pageInit(function (form) {
             var tab = s(link.className());
 
             tab.addClass('active');
-            tab.fadeIn('fast', function(){
-                SamsonCMS_Input.redraw();
-            });
 
             link.addClass('active');
+            tab.show();
         });
     });
 
