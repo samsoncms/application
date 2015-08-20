@@ -216,9 +216,11 @@ class Application extends CompressableExternalModule
             $form = new $this->formClassName($this, $this->query->className($this->entity), $entity);
             $formView = $form->render();
 
+            // Set title for all of applications
+            $this->title(t('Редактирование', true).' #'.$identifier.' - '.$this->description);
+
             // Render view
             return $this->view('form/index2')
-                ->title($this->description)
                 ->set('entityId', $entity->id)
                 ->set($entity, 'entity')
                 ->set('formContent', $formView);
