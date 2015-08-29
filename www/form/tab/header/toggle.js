@@ -9,6 +9,12 @@ s('.samsoncms-form').pageInit(function (form) {
         currentBlock = s('.template-block:first-child');
         hash = currentBlock.a('id');
     }
+    
+    // Open/close tab by click on the title of tab
+    s('.template-block .template-block-header .tab-header>span').click(function (e) {
+        s('.tab-toggle-button', e.parent()).click();
+    });
+    
     window.location.hash = hash;
     s('.tab-toggle-button', currentBlock).hasClass('collapsed') ? s('.template-block-content', currentBlock).fadeIn('fast') : s('.template-block-content', currentBlock).fadeOut('fast');
     s('.tab-toggle-button', currentBlock).toggleClass('collapsed');
