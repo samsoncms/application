@@ -11,7 +11,7 @@ s('.samsoncms-form').pageInit(function (form) {
     }
     
     // Open/close tab by click on the title of tab
-    s('.template-block .template-block-header .tab-header>span').click(function (e) {
+    s('.template-block .template-block-header .tab-header>span:not(.tab-toggle-button)').click(function (e) {
         s('.tab-toggle-button', e.parent()).click();
     });
     
