@@ -16,7 +16,25 @@ s('.samsoncms-form').pageInit(function (form) {
     });
     
     window.location.hash = hash;
-    s('.tab-toggle-button', currentBlock).hasClass('collapsed') ? s('.template-block-content', currentBlock).fadeIn('fast') : s('.template-block-content', currentBlock).fadeOut('fast');
+
+    // Show sub tabs with locale
+    function showSubTab(tab) {
+        tab.css('display', 'inline-block');
+    }
+
+    // If tab have to be opened
+    if (s('.tab-toggle-button', currentBlock).hasClass('collapsed')) {
+
+        s('.template-block-content', currentBlock).fadeIn('fast');
+
+        // Show subtabs in current block
+        showSubTab(s('.sub-tab-header', s('.tab-toggle-button', currentBlock).parent()));
+
+        // Tab have to be hided
+    } else {
+        s('.template-block-content', currentBlock).fadeOut('fast');
+    }
+
     s('.tab-toggle-button', currentBlock).toggleClass('collapsed');
     s(window).scrollTop(currentBlock.offset());
 
@@ -25,10 +43,23 @@ s('.samsoncms-form').pageInit(function (form) {
         var link = s('.tab-toggle-button', header);
         var parent = link.parent('template-block');
         var content = s('.template-block-content', parent);
+        var subHeaders = s('.sub-tab-header', parent);
 
         link.click(function () {
 
-            link.hasClass('collapsed') ? content.fadeIn('fast') : content.fadeOut('fast');
+            // Content of the tab is hided
+            if (link.hasClass('collapsed')) {
+
+                // Show content
+                content.fadeIn('fast');
+                showSubTab(subHeaders);
+            } else {
+
+                // Hide content
+                content.fadeOut('fast');
+                subHeaders.fadeOut('fast');
+            }
+
             link.toggleClass('collapsed');
 
             if (!link.hasClass('collapsed')) {
