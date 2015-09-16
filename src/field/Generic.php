@@ -120,12 +120,19 @@ class Generic
             // If we have received material field not regular table record
             if ($object instanceof \samson\activerecord\materialfield) {
                 // Create input element for field
-                $renderer->set(
-                    m('samsoncms_input_application')->createFieldByType(
+                //TODO Updated here
+                $field = m('samsoncms_input_application')->createFieldByType(
                         $query,
                         $this->type,
                         $object
-                    ),
+                    );
+                // If it is the select type then build his values
+                if ($this->type == 4) {
+                    $fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
+                    $field->build($fieldValue->Value);
+                }
+                $renderer->set(
+                    $field,
                     'field'
                 );
             } else {
