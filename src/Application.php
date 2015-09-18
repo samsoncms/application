@@ -72,6 +72,7 @@ class Application extends CompressableExternalModule
     /** Constructor */
     public function __construct($path = null, $vid = null, $resources = null)
     {
+
         // Save CMSApplication instance
         if (!in_array(get_class($this), array(__CLASS__, 'samson\\cms\\App'))) {
             self::$loaded[$this->id] = & $this;
@@ -98,6 +99,7 @@ class Application extends CompressableExternalModule
         $this->query = new dbQuery('material');
 
         parent::__construct($path, $vid, $resources);
+
     }
 
     /** Module initialization */
