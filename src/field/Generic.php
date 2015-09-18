@@ -115,10 +115,14 @@ class Generic
         // Set view
         $renderer = $renderer->view($this->innerView);
 
+        $className = 'samson\activerecord\materialfield';
+
         // If we need to render input field
         if ($this->editable) {
+
             // If we have received material field not regular table record
-            if ($object instanceof \samson\activerecord\materialfield) {
+            if (in_array($className, array(class_parents($object))) !== false) {
+
                 // Create input element for field
                 //TODO Updated here
                 $field = m('samsoncms_input_application')->createFieldByType(
@@ -126,6 +130,7 @@ class Generic
                         $this->type,
                         $object
                     );
+
                 // If it is the select type then build his values
                 if ($this->type == 4) {
                     $fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
@@ -148,8 +153,9 @@ class Generic
                 );
             }
         } else {
+
             // If we have received material field not regular table record
-            if ($object instanceof \samson\activerecord\materialfield) {
+            if (in_array($className, array(class_parents($object))) !== false) {
 
                 // TODO: This is not correct to show "Value" this should be done from InputField class somehow
                 $value = '';
@@ -164,8 +170,6 @@ class Generic
                 $renderer->set('field_html', $object[$this->name]);
             }
         }
-
-        //trace($this->name.'-'.$object[$this->name].'-'.get_class($object), true);
 
         // Render input field view
         return $renderer

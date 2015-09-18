@@ -89,9 +89,15 @@ s('.samsoncms-form').pageInit(function (form) {
 
     s('.template-block').each(function (block) {
         if (s('.sub-tab-header span', block).length) {
-            var first = s('.sub-tab-header span', block).elements[0];
-            s(first.className()).addClass('active');
-            first.addClass('active');
+
+            // Set current locale as active in all tabs
+            s('.sub-tab-header span', block).each(function(e){
+                var currentLocale = e.a('data-current-locale');
+                if (currentLocale == e.text()) {
+                    s(e.className()).addClass('active');
+                    e.addClass('active');
+                }
+            });
         } else if (s('.sub-tab-content', block).length) {
             s('.sub-tab-content', block).addClass('active');
         }
