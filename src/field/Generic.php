@@ -115,13 +115,11 @@ class Generic
         // Set view
         $renderer = $renderer->view($this->innerView);
 
-        $className = 'samson\activerecord\materialfield';
-
         // If we need to render input field
         if ($this->editable) {
 
             // If we have received material field not regular table record
-            if (in_array($className, array(class_parents($object))) !== false) {
+            if ($object instanceof \samson\activerecord\materialfield) {
 
                 // Create input element for field
                 //TODO Updated here
@@ -155,7 +153,7 @@ class Generic
         } else {
 
             // If we have received material field not regular table record
-            if (in_array($className, array(class_parents($object))) !== false) {
+            if ($object instanceof \samson\activerecord\materialfield) {
 
                 // TODO: This is not correct to show "Value" this should be done from InputField class somehow
                 $value = '';
