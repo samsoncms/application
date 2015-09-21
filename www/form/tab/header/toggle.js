@@ -98,6 +98,7 @@ s('.samsoncms-form').pageInit(function (form) {
                     e.addClass('active');
                 }
             });
+
         } else if (s('.sub-tab-content', block).length) {
             s('.sub-tab-content', block).addClass('active');
         }
