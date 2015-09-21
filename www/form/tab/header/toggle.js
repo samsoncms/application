@@ -99,14 +99,6 @@ s('.samsoncms-form').pageInit(function (form) {
                 }
             });
 
-            // Click manually on the first tab of seo tab
-            if (s(block).a('id') == 'seo_field_tab') {
-                var header = s('.sub-tab-header', block);
-                if (header.length > 0) {
-                    $('span', header.DOMElement).addClass('active');
-                    $('span', header.DOMElement).click();
-                }
-            }
         } else if (s('.sub-tab-content', block).length) {
             s('.sub-tab-content', block).addClass('active');
         }
