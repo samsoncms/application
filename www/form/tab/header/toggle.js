@@ -2,9 +2,7 @@
  * Created by onysko on 27.05.2015.
  */
 
-s('.samsoncms-form').pageInit(initTab);
-
-function initTab(form) {
+SamsonCMS_InputINIT_TAB = function(form) {
     var hash = window.location.hash;
     var currentBlock = s(hash);
     if (hash == '') {
@@ -106,4 +104,7 @@ function initTab(form) {
     });
 
     //SamsonCMS_Input.redraw();
-}
+};
+
+// Bind input
+SamsonCMS_Input.bind(SamsonCMS_InputINIT_TAB, '.samsoncms-form');
