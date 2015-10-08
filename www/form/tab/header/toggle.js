@@ -2,19 +2,21 @@
  * Created by onysko on 27.05.2015.
  */
 
-s('.samsoncms-form').pageInit(function (form) {
+s('.samsoncms-form').pageInit(initTab);
+
+function initTab(form) {
     var hash = window.location.hash;
     var currentBlock = s(hash);
     if (hash == '') {
         currentBlock = s('.template-block:first-child');
         hash = currentBlock.a('id');
     }
-    
+
     // Open/close tab by click on the title of tab
     s('.template-block .template-block-header .tab-header>span:not(.tab-toggle-button)').click(function (e) {
         s('.tab-toggle-button', e.parent()).click();
     });
-    
+
     window.location.hash = hash;
 
     // Show sub tabs with locale
@@ -98,11 +100,10 @@ s('.samsoncms-form').pageInit(function (form) {
                     e.addClass('active');
                 }
             });
-
         } else if (s('.sub-tab-content', block).length) {
             s('.sub-tab-content', block).addClass('active');
         }
     });
 
     //SamsonCMS_Input.redraw();
-});
+}
