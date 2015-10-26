@@ -1,4 +1,5 @@
 <section class="top clearfix">
+    <?php iv('activeButton')?>
     <h1>
         <?php t('Форма редактирования сущности') ?> #<?php v('entity_id') ?>
     </h1>
