@@ -117,15 +117,25 @@ class Generic
 
         // If we need to render input field
         if ($this->editable) {
+
             // If we have received material field not regular table record
             if ($object instanceof \samson\activerecord\materialfield) {
+
                 // Create input element for field
-                $renderer->set(
-                    m('samsoncms_input_application')->createFieldByType(
+                //TODO Updated here
+                $field = m('samsoncms_input_application')->createFieldByType(
                         $query,
                         $this->type,
                         $object
-                    ),
+                    );
+
+                // If it is the select type then build his values
+                if ($this->type == 4) {
+                    $fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
+                    $field->build($fieldValue->Value);
+                }
+                $renderer->set(
+                    $field,
                     'field'
                 );
             } else {
@@ -141,6 +151,7 @@ class Generic
                 );
             }
         } else {
+
             // If we have received material field not regular table record
             if ($object instanceof \samson\activerecord\materialfield) {
 
@@ -157,8 +168,6 @@ class Generic
                 $renderer->set('field_html', $object[$this->name]);
             }
         }
-
-        //trace($this->name.'-'.$object[$this->name].'-'.get_class($object), true);
 
         // Render input field view
         return $renderer

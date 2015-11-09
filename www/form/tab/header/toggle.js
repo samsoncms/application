@@ -2,15 +2,39 @@
  * Created by onysko on 27.05.2015.
  */
 
-s('.samsoncms-form').pageInit(function (form) {
+SamsonCMS_InputINIT_TAB = function(form) {
     var hash = window.location.hash;
     var currentBlock = s(hash);
     if (hash == '') {
         currentBlock = s('.template-block:first-child');
         hash = currentBlock.a('id');
     }
+
+    // Open/close tab by click on the title of tab
+    s('.template-block .template-block-header .tab-header>span:not(.tab-toggle-button)').click(function (e) {
+        s('.tab-toggle-button', e.parent()).click();
+    });
+
     window.location.hash = hash;
-    s('.tab-toggle-button', currentBlock).hasClass('collapsed') ? s('.template-block-content', currentBlock).fadeIn('fast') : s('.template-block-content', currentBlock).fadeOut('fast');
+
+    // Show sub tabs with locale
+    function showSubTab(tab) {
+        tab.css('display', 'inline-block');
+    }
+
+    // If tab have to be opened
+    if (s('.tab-toggle-button', currentBlock).hasClass('collapsed')) {
+
+        s('.template-block-content', currentBlock).fadeIn('fast');
+
+        // Show subtabs in current block
+        showSubTab(s('.sub-tab-header', s('.tab-toggle-button', currentBlock).parent()));
+
+        // Tab have to be hided
+    } else {
+        s('.template-block-content', currentBlock).fadeOut('fast');
+    }
+
     s('.tab-toggle-button', currentBlock).toggleClass('collapsed');
     s(window).scrollTop(currentBlock.offset());
 
@@ -19,10 +43,23 @@ s('.samsoncms-form').pageInit(function (form) {
         var link = s('.tab-toggle-button', header);
         var parent = link.parent('template-block');
         var content = s('.template-block-content', parent);
+        var subHeaders = s('.sub-tab-header', parent);
 
         link.click(function () {
 
-            link.hasClass('collapsed') ? content.fadeIn('fast') : content.fadeOut('fast');
+            // Content of the tab is hided
+            if (link.hasClass('collapsed')) {
+
+                // Show content
+                content.fadeIn('fast');
+                showSubTab(subHeaders);
+            } else {
+
+                // Hide content
+                content.fadeOut('fast');
+                subHeaders.fadeOut('fast');
+            }
+
             link.toggleClass('collapsed');
 
             if (!link.hasClass('collapsed')) {
@@ -52,13 +89,22 @@ s('.samsoncms-form').pageInit(function (form) {
 
     s('.template-block').each(function (block) {
         if (s('.sub-tab-header span', block).length) {
-            var first = s('.sub-tab-header span', block).elements[0];
-            s(first.className()).addClass('active');
-            first.addClass('active');
+
+            // Set current locale as active in all tabs
+            s('.sub-tab-header span', block).each(function(e){
+                var currentLocale = e.a('data-current-locale');
+                if (currentLocale == e.text()) {
+                    s(e.className()).addClass('active');
+                    e.addClass('active');
+                }
+            });
         } else if (s('.sub-tab-content', block).length) {
             s('.sub-tab-content', block).addClass('active');
         }
     });
 
     //SamsonCMS_Input.redraw();
-});
+};
+
+// Bind input
+SamsonCMS_Input.bind(SamsonCMS_InputINIT_TAB, '.samsoncms-form');
