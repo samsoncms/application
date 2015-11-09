@@ -36,7 +36,7 @@ SamsonCMS_InputINIT_TAB = function(form) {
     }
 
     s('.tab-toggle-button', currentBlock).toggleClass('collapsed');
-    s(window).scrollTop(currentBlock.offset());
+    s.scrollPageTo(currentBlock.offset().top, 200);
 
 
     s('.tab-header', form).each(function (header) {
@@ -63,7 +63,9 @@ SamsonCMS_InputINIT_TAB = function(form) {
             link.toggleClass('collapsed');
 
             if (!link.hasClass('collapsed')) {
-                window.location.hash = parent.a('id');
+                s.scrollPageTo(parent.offset().top, 200, function() {
+                    window.location.hash = parent.a('id');
+                });
             }
 
             //$(content.DOMElement).slideToggle(400);
