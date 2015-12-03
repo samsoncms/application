@@ -4,7 +4,7 @@
     "author":"Vitaly Iegorov <egorov@samsonos.com>",
     "require":{
       "samsonframework/collection":"*",
-      "samsonos/cms_api":"*",
+      "samsoncms/api":"*",
       "samsonos/php_core":"*",
       "samsonos/php_activerecord":"*",
       "samsonos/php_resourcer":"*",
