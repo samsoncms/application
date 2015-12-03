@@ -21,7 +21,7 @@ use samsonframework\orm\QueryInterface;
  * @package samsoncms
  * @author Vitaly Iegorov <egorov@samsonos.com>
  */
-class MetaCollection extends \samsonos\cms\collection\Filtered
+class MetaCollection extends \samsoncms\api\Collection
 {
     /** @var string Index collection view */
     protected $indexView = 'collection/collection';
