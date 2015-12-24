@@ -4,6 +4,9 @@ namespace samsoncms;
 use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
 use samson\pager\Pager;
+use samsonframework\core\RequestInterface;
+use samsonframework\core\ResourcesInterface;
+use samsonframework\core\SystemInterface;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -40,7 +43,7 @@ class Application extends CompressableExternalModule
 
     /**
      * Collection of loaded SamsonCMS applications
-     * @var App[]
+     * @var self[]
      */
     protected static $loaded = array();
 
@@ -69,8 +72,15 @@ class Application extends CompressableExternalModule
         return isset($app);
     }
 
-    /** Constructor */
-    public function __construct($path = null, $vid = null, $resources = null)
+    /**
+     * Application constructor.
+     *
+     * @param string $path
+     * @param ResourcesInterface $resources
+     * @param SystemInterface $system
+     * @param RequestInterface $request
+     */
+    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, RequestInterface $request)
     {
 
         // Save CMSApplication instance
@@ -98,7 +108,7 @@ class Application extends CompressableExternalModule
         // Create database object
         $this->query = new dbQuery('material');
 
-        parent::__construct($path, $vid, $resources);
+        parent::__construct($path, $resources, $system, $request);
 
     }
 
