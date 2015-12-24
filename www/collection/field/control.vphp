@@ -1,9 +1,7 @@
 <div class="table2-col control">
     <a class="icon2 icon_16x16 icon-edit template-list-btn-edit"
        href="<?php module_url('form', 'item_id')?>" title="<?php t('Редактировать')?>"></a>
-    <?php if (isval('item_system', 0)) : ?>
-        <a class="icon2 icon_16x16 icon-delete delete"
+    <a class="icon2 icon_16x16 icon-delete delete"
            href="<?php module_url('remove2', 'item_id', 'collection')?>"
            title="<?php t('Удалить')?>?"></a>
-    <?php endif; ?>
 </div>
