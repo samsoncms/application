@@ -80,7 +80,7 @@ class Application extends CompressableExternalModule
      * @param SystemInterface $system
      * @param RequestInterface $request
      */
-    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, RequestInterface $request)
+    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system)
     {
 
         // Save CMSApplication instance
@@ -108,7 +108,7 @@ class Application extends CompressableExternalModule
         // Create database object
         $this->query = new dbQuery('material');
 
-        parent::__construct($path, $resources, $system, $request);
+        parent::__construct($path, $resources, $system);
 
     }
 
