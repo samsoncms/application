@@ -4,6 +4,7 @@
 
     .template-form {
       padding: 0 @padding;
+      margin-top: @padding;
     }
 
     .template-block-content {
@@ -21,7 +22,7 @@
       position: absolute;
       right: 0;
       top: 50%;
-      margin-top: -15px;
+      margin-top: -@padding;
       width: 40px;
       height: 40px;
       &:before {
@@ -71,7 +72,7 @@
     & > span:first-child {
       font-size: 15px;
       font-weight: bold;
-      padding-top: 10px;
+      padding: @padding 0;
     }
   }
 
