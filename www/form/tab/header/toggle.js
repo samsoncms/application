@@ -46,20 +46,15 @@ SamsonCMS_InputINIT_TAB = function(form) {
         var subHeaders = s('.sub-tab-header', parent);
 
         link.click(function () {
-
             // Content of the tab is hided
             if (link.hasClass('collapsed')) {
-
-                // Show content
-                content.fadeIn('fast');
                 showSubTab(subHeaders);
             } else {
-
                 // Hide content
-                content.fadeOut('fast');
                 subHeaders.fadeOut('fast');
             }
 
+            $(content.DOMElement).slideToggle('slow');
             link.toggleClass('collapsed');
 
             if (!link.hasClass('collapsed')) {
@@ -67,8 +62,6 @@ SamsonCMS_InputINIT_TAB = function(form) {
                     window.location.hash = parent.a('id');
                 });
             }
-
-            //$(content.DOMElement).slideToggle(400);
         });
     });
 
