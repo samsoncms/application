@@ -160,6 +160,7 @@ class MetaCollection extends \samsoncms\api\Collection
         foreach ($this->fields as $inputField) {
             // TODO: Maybe we can optimize this requests
             // Find additional field by Name
+            /** @var \samsoncms\api\MaterialField $field */
             $field = null;
             /**@var \samsoncms\api\Field $field */
             if ($this->query->entity(\samsoncms\api\Field::class)->where(\samsoncms\api\Field::F_IDENTIFIER, $inputField->name)->first($field)) {
@@ -170,7 +171,7 @@ class MetaCollection extends \samsoncms\api\Collection
                     ->where(\samsoncms\api\MaterialField::F_FIELDID, $field->id);
 
                 // If additional field is localizable add locale condition
-                if ($field->local == 1) {
+                if ($field->local === 1) {
                     $query->where('locale', $this->locale);
                 }
 

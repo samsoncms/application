@@ -79,11 +79,13 @@ class Application extends CompressableExternalModule
      * @param string $path
      * @param ResourcesInterface $resources
      * @param SystemInterface $system
-     * @param RequestInterface $request
      * @param QueryInterface $query
+     * @throws ApplicationFormClassNotFound
+     * @internal param RequestInterface $request
      */
     public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query = null)
     {
+        $this->query = $query;
 
         // Save CMSApplication instance
         if (!in_array(get_class($this), array(__CLASS__, 'samson\\cms\\App'))) {
@@ -105,6 +107,7 @@ class Application extends CompressableExternalModule
 
         // Create database object
         $this->query = new dbQuery('material');
+
         parent::__construct($path, $resources, $system);
     }
 
@@ -143,7 +146,7 @@ class Application extends CompressableExternalModule
         // Create entities collection from defined parameters
         $entitiesCollection = new $this->collectionClass(
             $this,
-            $this->query->className($this->entity),
+            $this->query->entity($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
         );
 
