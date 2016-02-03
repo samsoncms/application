@@ -119,6 +119,7 @@ class Generic
         if ($this->editable) {
 
             // If we have received material field not regular table record
+            /**@var \samson\activerecord\materialfield $object */
             if ($object instanceof \samson\activerecord\materialfield) {
 
                 // Create input element for field
