@@ -7,6 +7,7 @@ use samson\pager\Pager;
 use samsonframework\core\RequestInterface;
 use samsonframework\core\ResourcesInterface;
 use samsonframework\core\SystemInterface;
+use samsonframework\orm\QueryInterface;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -79,8 +80,9 @@ class Application extends CompressableExternalModule
      * @param ResourcesInterface $resources
      * @param SystemInterface $system
      * @param RequestInterface $request
+     * @param QueryInterface $query
      */
-    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system)
+    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query = null)
     {
 
         // Save CMSApplication instance
@@ -98,18 +100,12 @@ class Application extends CompressableExternalModule
 
         // Check form class configuration
         if (!class_exists($this->formClassName)) {
-            e(
-                '## application form class(##) is not found',
-                E_CORE_ERROR,
-                array($this->id, $this->formClassName)
-            );
+            throw new ApplicationFormClassNotFound(array($this->id) . ' application form class ' . array($this->formClassName) . ' is not found');
         }
 
         // Create database object
         $this->query = new dbQuery('material');
-
         parent::__construct($path, $resources, $system);
-
     }
 
     /** Module initialization */
