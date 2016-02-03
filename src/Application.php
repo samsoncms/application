@@ -175,6 +175,24 @@ class Application extends CompressableExternalModule
         // Deletion failed
         return array('status' => 0, 'error' => $this->entity.'#'.$identifier.' entity not found');
     }
+    
+    /**
+     * Generic entity delete controller action
+     * @param int $identifier Entity identifier
+     * @return array Asynchronous response array
+     */
+    public function __async_removeentity($identifier)
+    {
+        /** @var \samsonframework\orm\Record $entity Find database record by identifier */
+        $entity = null;
+        if ($this->findEntityByID($identifier, $entity)) {
+            $entity->delete();
+            return $this->__async_collection();
+        }
+
+        // Deletion failed
+        return array('status' => 0, 'error' => $this->entity.'#'.$identifier.' entity not found');
+    }
 
     /**
      * Clone entity

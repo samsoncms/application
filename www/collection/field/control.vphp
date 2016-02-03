@@ -2,6 +2,6 @@
     <a class="icon2 icon_16x16 icon-edit template-list-btn-edit"
        href="<?php module_url('form', 'item_id')?>" title="<?php t('Редактировать')?>"></a>
     <a class="icon2 icon_16x16 icon-delete delete"
-           href="<?php module_url('remove2', 'item_id', 'collection')?>"
+           href="<?php module_url('removeentity', 'item_id')?>"
            title="<?php t('Удалить')?>?"></a>
 </div>
