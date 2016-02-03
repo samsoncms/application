@@ -50,7 +50,7 @@ class Application extends CompressableExternalModule
 
     /**
      * Get all loaded SamsonCMS applications
-     * @return App[] Collection of loaded applications
+     * @return Application[] Collection of loaded applications
      * @deprecated
      */
     public static function loaded()
@@ -310,7 +310,7 @@ class Application extends CompressableExternalModule
      * @param $entity
      * @param array $result
      * @param null $entityName
-     * @return bool
+     * @return boolean|string
      */
     protected function findAsyncEntityByID($identifier, & $entity, array & $result = array(), $entityName = null)
     {
