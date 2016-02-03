@@ -161,17 +161,17 @@ class MetaCollection extends \samsoncms\api\Collection
             // TODO: Maybe we can optimize this requests
             // Find additional field by Name
             $field = null;
-            if (dbQuery('field')->cond('Name', $inputField->name)->first($field)) {
+            /**@var \samsoncms\api\Field $field */
+            if ($this->query->entity(\samsoncms\api\Field::class)->where(\samsoncms\api\Field::F_IDENTIFIER, $inputField->name)->first($field)) {
 
                 // Create material field query to get additional field record
-                $query = dbQuery('materialfield')
-                    ->cond('MaterialID', $item->id)
-                    ->cond('FieldID', $field->id)
-                    ;
+                $query = $this->query->entity(\samsoncms\api\MaterialField::class)
+                    ->where(\samsoncms\api\MaterialField::F_MATERIALID, $item->id)
+                    ->where(\samsoncms\api\MaterialField::F_FIELDID, $field->id);
 
                 // If additional field is localizable add locale condition
                 if ($field->local == 1) {
-                    $query->cond('locale', $this->locale);
+                    $query->where('locale', $this->locale);
                 }
 
                 // Try to find materialfield record for this item and its field

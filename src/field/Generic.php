@@ -131,7 +131,8 @@ class Generic
 
                 // If it is the select type then build his values
                 if ($this->type == 4) {
-                    $fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
+                    //$fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
+                    $fieldValue = $query->entity(\samsoncms\api\Field::class)->where(\samsoncms\api\Field::F_PRIMARY, $object->FieldID)->first();
                     $field->build($fieldValue->Value);
                 }
                 $renderer->set(
