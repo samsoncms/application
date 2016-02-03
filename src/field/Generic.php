@@ -63,8 +63,6 @@ class Generic
     /**
      * Render collection entity field header block
      * @param RenderInterface $renderer
-     * @param QueryInterface $query
-     * @param mixed $object Entity object instance
      * @return string Rendered entity field
      */
     public function renderHeader(RenderInterface $renderer)
