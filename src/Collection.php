@@ -26,6 +26,9 @@ class Collection extends \samsonframework\collection\Paged
 
     /** @var string Entity fields row view */
     protected $rowView = 'collection/row/body';
+    
+    /** @var string Empty view file */
+    protected $emptyView = 'www/collection/row/empty';
 
     /** @var \samsoncms\field\Generic[] Collection of entity fields to manipulate */
     protected $fields;
