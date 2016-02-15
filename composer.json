@@ -17,7 +17,6 @@
       "samsonos/js_select":"*",
       "samsonos/php_pager":"*",
       "samsonos/php_parse":"*",
-      "samsonos/php_scale":"*",
       "samsonos/social_core":"*",
       "samsonos/social_email":"*",
       "samsoncms/template":"*",

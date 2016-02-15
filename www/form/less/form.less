@@ -2,12 +2,21 @@
   .template-block {
     width: 100%;
 
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
     .template-form {
       padding: 0 @padding;
+      margin-top: @padding;
     }
 
     .template-block-content {
       display: none;
+    }
+
+    .template-block-header {
+      padding: 0 40px;
     }
   }
 
@@ -21,20 +30,24 @@
       position: absolute;
       right: 0;
       top: 50%;
-      margin-top: -15px;
+      margin-top: -@padding;
       width: 40px;
       height: 40px;
+      transform: rotate(0deg);
+      .transition(all, 0.6s);
       &:before {
         position: absolute;
         font-size: 40px;
         color: lighten(@theme-color, 20%);
-        content: "\f107";
         font-family: FontAwesome;
+        content: "\f107";
       }
 
       &.collapsed {
+        top: 60%;
+        transform: rotate(90deg);
         &:before {
-          content: "\f104";
+          //content: "\f104";
         }
       }
 
@@ -69,9 +82,9 @@
     }
 
     & > span:first-child {
-      font-size: 15px;
+      font-size: 18px;
       font-weight: bold;
-      padding-top: 10px;
+      padding: @padding 0;
     }
   }
 
@@ -79,6 +92,17 @@
     display: none;
     &.active {
       display: block;
+    }
+  }
+
+  .back-link {
+    a {
+      display: block;
+      color: @theme-color;
+      .transition();
+      &:hover {
+        color: lighten(@theme-color, 20%);
+      }
     }
   }
 }

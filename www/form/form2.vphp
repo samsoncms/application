@@ -1,3 +1,7 @@
 <div class="samsoncms-form">
     <?php iv('tabs') ?>
+    
+    <div class="back-link">
+        <a href="<?php module_url() ?>" title="<?php t('Назад к списку') ?>"><?php t('Назад к списку') ?></a>
+    </div>
 </div>

@@ -63,8 +63,6 @@ class Generic
     /**
      * Render collection entity field header block
      * @param RenderInterface $renderer
-     * @param QueryInterface $query
-     * @param mixed $object Entity object instance
      * @return string Rendered entity field
      */
     public function renderHeader(RenderInterface $renderer)
@@ -119,6 +117,7 @@ class Generic
         if ($this->editable) {
 
             // If we have received material field not regular table record
+            /**@var \samson\activerecord\materialfield $object */
             if ($object instanceof \samson\activerecord\materialfield) {
 
                 // Create input element for field
@@ -131,7 +130,8 @@ class Generic
 
                 // If it is the select type then build his values
                 if ($this->type == 4) {
-                    $fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
+                    //$fieldValue = dbQuery('field')->cond('FieldID', $object->FieldID)->first();
+                    $fieldValue = $query->entity(\samsoncms\api\Field::class)->where(\samsoncms\api\Field::F_PRIMARY, $object->FieldID)->first();
                     $field->build($fieldValue->Value);
                 }
                 $renderer->set(

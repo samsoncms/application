@@ -4,9 +4,12 @@ namespace samsoncms;
 use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
 use samson\pager\Pager;
+use samsoncms\application\CacheGenerate;
+use samsoncms\application\GeneratorApplication;
 use samsonframework\core\RequestInterface;
 use samsonframework\core\ResourcesInterface;
 use samsonframework\core\SystemInterface;
+use samsonframework\orm\QueryInterface;
 
 /**
  * SamsonCMS external compressible application for integrating
@@ -49,7 +52,7 @@ class Application extends CompressableExternalModule
 
     /**
      * Get all loaded SamsonCMS applications
-     * @return App[] Collection of loaded applications
+     * @return Application[] Collection of loaded applications
      * @deprecated
      */
     public static function loaded()
@@ -78,10 +81,13 @@ class Application extends CompressableExternalModule
      * @param string $path
      * @param ResourcesInterface $resources
      * @param SystemInterface $system
-     * @param RequestInterface $request
+     * @param QueryInterface $query
+     * @throws ApplicationFormClassNotFound
+     * @internal param RequestInterface $request
      */
-    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system)
+    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query = null)
     {
+        $this->query = $query;
 
         // Save CMSApplication instance
         if (!in_array(get_class($this), array(__CLASS__, 'samson\\cms\\App'))) {
@@ -98,18 +104,13 @@ class Application extends CompressableExternalModule
 
         // Check form class configuration
         if (!class_exists($this->formClassName)) {
-            e(
-                '## application form class(##) is not found',
-                E_CORE_ERROR,
-                array($this->id, $this->formClassName)
-            );
+            throw new ApplicationFormClassNotFound(array($this->id) . ' application form class ' . array($this->formClassName) . ' is not found');
         }
 
         // Create database object
         $this->query = new dbQuery('material');
 
         parent::__construct($path, $resources, $system);
-
     }
 
     /** Module initialization */
@@ -117,6 +118,16 @@ class Application extends CompressableExternalModule
     {
         \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
         \samsonphp\event\Event::subscribe('help.submenu.rendered', array($this, 'helpMenu'));
+
+        // Check if it is main application class
+        if ($this->id === 'samsoncms_application') {
+
+            // TODO db()
+            $cacheGenerator = new CacheGenerate(db());
+
+            // Load generated modules
+            $cacheGenerator->loadModules($this->system, $this->cache_path);
+        }
     }
 
     /**
@@ -147,7 +158,7 @@ class Application extends CompressableExternalModule
         // Create entities collection from defined parameters
         $entitiesCollection = new $this->collectionClass(
             $this,
-            $this->query->className($this->entity),
+            $this->query->entity($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
         );
 
@@ -170,6 +181,24 @@ class Application extends CompressableExternalModule
         if ($this->findEntityByID($identifier, $entity)) {
             $entity->delete();
             return array('status' => 1);
+        }
+
+        // Deletion failed
+        return array('status' => 0, 'error' => $this->entity.'#'.$identifier.' entity not found');
+    }
+    
+    /**
+     * Generic entity delete controller action
+     * @param int $identifier Entity identifier
+     * @return array Asynchronous response array
+     */
+    public function __async_removeentity($identifier)
+    {
+        /** @var \samsonframework\orm\Record $entity Find database record by identifier */
+        $entity = null;
+        if ($this->findEntityByID($identifier, $entity)) {
+            $entity->delete();
+            return $this->__async_collection();
         }
 
         // Deletion failed
@@ -296,7 +325,7 @@ class Application extends CompressableExternalModule
      * @param $entity
      * @param array $result
      * @param null $entityName
-     * @return bool
+     * @return boolean|string
      */
     protected function findAsyncEntityByID($identifier, & $entity, array & $result = array(), $entityName = null)
     {
