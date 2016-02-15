@@ -4,6 +4,8 @@ namespace samsoncms;
 use samson\activerecord\dbQuery;
 use samson\core\CompressableExternalModule;
 use samson\pager\Pager;
+use samsoncms\application\CacheGenerate;
+use samsoncms\application\GeneratorApplication;
 use samsonframework\core\RequestInterface;
 use samsonframework\core\ResourcesInterface;
 use samsonframework\core\SystemInterface;
@@ -116,6 +118,16 @@ class Application extends CompressableExternalModule
     {
         \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
         \samsonphp\event\Event::subscribe('help.submenu.rendered', array($this, 'helpMenu'));
+
+        // Check if it is main application class
+        if ($this->id === 'samsoncms_application') {
+
+            // TODO db()
+            $cacheGenerator = new CacheGenerate(db());
+
+            // Load generated modules
+            $cacheGenerator->loadModules($this->system, $this->cache_path);
+        }
     }
 
     /**
