@@ -121,7 +121,7 @@ class Application extends CompressableExternalModule
 
         //[PHPCOMPRESSOR(remove,start)]
         // Check if it is main application class
-        if ($this->id === 'samsoncms_application') {
+        if (get_class($this) === __CLASS__) {
 
             // TODO db()
             $cacheGenerator = new CacheGenerate(db());
