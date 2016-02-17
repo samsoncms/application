@@ -119,6 +119,7 @@ class Application extends CompressableExternalModule
         \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
         \samsonphp\event\Event::subscribe('help.submenu.rendered', array($this, 'helpMenu'));
 
+        //[PHPCOMPRESSOR(remove,start)]
         // Check if it is main application class
         if ($this->id === 'samsoncms_application') {
 
@@ -128,6 +129,7 @@ class Application extends CompressableExternalModule
             // Load generated modules
             $cacheGenerator->loadModules($this->system, $this->cache_path);
         }
+        //[PHPCOMPRESSOR(remove,end)]
     }
 
     /**
