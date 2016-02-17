@@ -110,17 +110,19 @@ class MetaCollection extends \samsoncms\api\Collection
         /** @var int $total Collection items count */
         $total = $this->pager->page_size * $this->pager->total;
 
-        foreach ($this->pagerSizes as $optValue) {
-            // Show default option as selected
-            $optSelected = $this->pager->page_size == $optValue ? 'selected' : '';
+        if ($this->pager->rows_count > $this->pagerSizes[0]) {
+            foreach ($this->pagerSizes as $optValue) {
+                // Show default option as selected
+                $optSelected = $this->pager->page_size == $optValue ? 'selected' : '';
 
-            // Is necessary to show current option
-            $options .= $total >= $optValue
-                ? $this->renderer->view('collection/sizeblock_option')
-                    ->optVal($optValue)
-                    ->optSelected($optSelected)
-                    ->output()
-                : '';
+                // Is necessary to show current option
+                $options .= $total >= $optValue
+                    ? $this->renderer->view('collection/sizeblock_option')
+                        ->optVal($optValue)
+                        ->optSelected($optSelected)
+                        ->output()
+                    : '';
+            }
         }
 
         // Show block only if we have some options
