@@ -120,7 +120,7 @@ class Application extends CompressableExternalModule
         \samsonphp\event\Event::subscribe('help.submenu.rendered', array($this, 'helpMenu'));
 
         // Check if it is main application class
-        if ($this->id === 'samsoncms_application') {
+        if (get_class($this) === __CLASS__) {
 
             // TODO db()
             $cacheGenerator = new CacheGenerate(db());
