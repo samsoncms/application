@@ -7,8 +7,7 @@
     box-shadow: none;
 
     .template-form {
-      padding: 0 @padding;
-      margin-top: @padding;
+      padding-top: @padding/4;
     }
 
     .template-block-content {
@@ -16,7 +15,7 @@
     }
 
     .template-block-header {
-      padding: 0 40px;
+      padding: 0 @padding;
     }
   }
 
@@ -29,12 +28,13 @@
       cursor: pointer;
       position: absolute;
       right: 0;
-      top: 50%;
+      top: 25px;
       margin-top: -@padding;
       width: 40px;
       height: 40px;
       transform: rotate(0deg);
       .transition(all, 0.6s);
+
       &:before {
         position: absolute;
         font-size: 40px;
@@ -44,7 +44,7 @@
       }
 
       &.collapsed {
-        top: 60%;
+        top: 25px;
         transform: rotate(90deg);
         &:before {
           //content: "\f104";
@@ -84,7 +84,7 @@
     & > span:first-child {
       font-size: 18px;
       font-weight: bold;
-      padding: @padding 0;
+      padding: @padding/2 0;
     }
   }
 
