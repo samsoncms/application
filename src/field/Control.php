@@ -37,7 +37,7 @@ class Control extends Generic
         // Render input field view
         return $renderer
             ->view($this->innerView)
-            ->set('class', $this->css)
+            ->set($this->css, 'class')
             ->set($object, 'item')
             ->output();
     }

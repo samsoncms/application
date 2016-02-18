@@ -194,23 +194,23 @@ $code = <<<'EOD'
         $mainItemView = $this->mainItemView;
 
         // Return material block HTML on main page
-        return (new \samsoncms\api\{{collection_name}}Collection($this))
+        /*return (new \samsoncms\application\{{collection_name}}Collection($this))
             // Render index
             ->indexView(function($html, $renderer) use ($navName, $mainIndexView) {
                 return $renderer->view($mainIndexView)
-                    ->set(\samsoncms\api\renderable\Collection::ITEMS_VIEW_VARIABLE, $html)
+                    ->set($html, \samsoncms\api\renderable\Collection::ITEMS_VIEW_VARIABLE)
                     ->navName($navName)
                     ->output();
             })
             // Render item
             ->itemView(function($item, $renderer) use ($moduleId, $mainItemView) {
                 return $renderer->view($mainItemView)
-                    ->set(\samsoncms\api\renderable\Collection::ITEM_VIEW_VARIABLE, $item)
+                    ->set($item, \samsoncms\api\renderable\Collection::ITEM_VIEW_VARIABLE)
                     //->user(m('social')->user())
                     ->moduleId($moduleId)
                     ->output();
             })
-            ->output();
+            ->output();*/
     }
 EOD;
 
@@ -227,6 +227,8 @@ EOD;
      */
     public function createApplicationClass(Metadata $metadata, $namespace = __NAMESPACE__)
     {
+        $namespace .= '\\generated';
+
         $class = "\n" . 'namespace ' . $namespace . ';';
         $class .= "\n";
 
@@ -272,6 +274,9 @@ EOD;
      */
     public function createApplicationCollectionClass(Metadata $metadata, $namespace = __NAMESPACE__)
     {
+
+        $namespace .= '\\generated';
+
         $class = "\n" . 'namespace ' . $namespace . ';';
         $class .= "\n\n" . 'use samsoncms\field\Generic;';
         $class .= "\n" . 'use samsoncms\field\Control;';
