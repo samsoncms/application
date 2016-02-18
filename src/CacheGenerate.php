@@ -63,7 +63,7 @@ class CacheGenerate
 
             // Require classes
             require($applicationFile);
-            require($collectionFile);
+            require_once($collectionFile);
 
             // Create folder for resource of module
             $dirResource = $this->createFolder($folder . DIRECTORY_SEPARATOR . self::PATH_TO_RESOURCE);

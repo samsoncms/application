@@ -194,7 +194,7 @@ $code = <<<'EOD'
         $mainItemView = $this->mainItemView;
 
         // Return material block HTML on main page
-        return (new \samsoncms\api\{{collection_name}}Collection($this))
+        /*return (new \samsoncms\application\{{collection_name}}Collection($this))
             // Render index
             ->indexView(function($html, $renderer) use ($navName, $mainIndexView) {
                 return $renderer->view($mainIndexView)
@@ -210,7 +210,7 @@ $code = <<<'EOD'
                     ->moduleId($moduleId)
                     ->output();
             })
-            ->output();
+            ->output();*/
     }
 EOD;
 
@@ -227,6 +227,8 @@ EOD;
      */
     public function createApplicationClass(Metadata $metadata, $namespace = __NAMESPACE__)
     {
+        $namespace .= '\\generated';
+
         $class = "\n" . 'namespace ' . $namespace . ';';
         $class .= "\n";
 
@@ -272,6 +274,9 @@ EOD;
      */
     public function createApplicationCollectionClass(Metadata $metadata, $namespace = __NAMESPACE__)
     {
+
+        $namespace .= '\\generated';
+
         $class = "\n" . 'namespace ' . $namespace . ';';
         $class .= "\n\n" . 'use samsoncms\field\Generic;';
         $class .= "\n" . 'use samsoncms\field\Control;';
