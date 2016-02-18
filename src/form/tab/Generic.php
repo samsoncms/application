@@ -78,9 +78,9 @@ abstract class Generic
     {
         if ($this->show) {
             return $this->renderer->view($this->indexView)
-                ->content($this->content())
-                ->header($this->header())
-                ->tabUrl($this->id)
+                ->set($this->content(), 'content')
+                ->set($this->header(), 'header')
+                ->set($this->id, 'tabUrl')
                 ->output();
         } else {
             return '';
@@ -104,8 +104,8 @@ abstract class Generic
 
         // Set content of header view
         $tabHeader = $this->renderer->view($this->headerContentView)
-            ->headName(t($this->name, true))
-            ->headUrl('#'.$this->id)
+            ->set(t($this->name, true), 'headName')
+            ->set('#'.$this->id, 'headUrl')
             ->output();
 
         // If tab has sub tabs
@@ -117,8 +117,8 @@ abstract class Generic
         }
 
         return $this->renderer->view($this->headerIndexView)
-            ->tabHeader($tabHeader)
-            ->tabSubHeader($tabSubHeader)
+            ->set($tabHeader, 'tabHeader')
+            ->set($tabSubHeader, 'tabSubHeader')
             ->output();
     }
 }
