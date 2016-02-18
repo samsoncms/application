@@ -119,8 +119,9 @@ class Application extends CompressableExternalModule
         \samsonphp\event\Event::subscribe('help.content.rendered', array($this, 'help'));
         \samsonphp\event\Event::subscribe('help.submenu.rendered', array($this, 'helpMenu'));
 
+        //[PHPCOMPRESSOR(remove,start)]
         // Check if it is main application class
-        if ($this->id === 'samsoncms_application') {
+        if (get_class($this) === __CLASS__) {
 
             // TODO db()
             $cacheGenerator = new CacheGenerate(db());
@@ -128,6 +129,7 @@ class Application extends CompressableExternalModule
             // Load generated modules
             $cacheGenerator->loadModules($this->system, $this->cache_path);
         }
+        //[PHPCOMPRESSOR(remove,end)]
     }
 
     /**
@@ -142,9 +144,9 @@ class Application extends CompressableExternalModule
         // Prepare view
         $this->title($description)
             ->view('collection/index')
-            ->set('name', $name)
-            ->set('icon', $this->icon)
-            ->set('description', $description)
+            ->set($name, 'name')
+            ->set($this->icon, 'icon')
+            ->set($description, 'description')
             ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
         ;
     }
@@ -262,9 +264,9 @@ class Application extends CompressableExternalModule
 
             // Render view
             return $this->view('form/index2')
-                ->set('entityId', $entity->id)
+                ->set($entity->id, 'entityId')
                 ->set($entity, 'entity')
-                ->set('formContent', $formView);
+                ->set($formView, 'formContent');
         }
 
         return A_FAILED;
@@ -298,9 +300,9 @@ class Application extends CompressableExternalModule
     {
         if ($this->findView('help/index')) {
             $html .= $renderer->view('submenu-item')
-                ->set('module', $this->id)
-                ->set('modulename', t($this->name, true))
-            ->output();
+                ->set($this->id, 'module')
+                ->set(t($this->name, true), 'modulename')
+                ->output();
         }
     }
 

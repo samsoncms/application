@@ -84,8 +84,8 @@ class Collection extends \samsonframework\collection\Paged
 
         return $this->renderer
             ->view($this->indexView)
-            ->set('header', $headerHTML)
-            ->set('items', $items)
+            ->set($headerHTML, 'header')
+            ->set($items, 'items')
             ->output();
     }
 

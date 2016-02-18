@@ -21,6 +21,24 @@ use samsonframework\orm\DatabaseInterface;
  */
 class GeneratorApplication extends Generator
 {
+    /** Custom css selector in generic constructor */
+    const DEFAULT_CUSTOM_TYPE_CSS = '';
+
+    /** User can edit field in list of application */
+    const DEFAULT_CUSTOM_TYPE_EDITABLE = 'false';
+
+    /** Field can be sortable in list of application */
+    const DEFAULT_CUSTOM_TYPE_SORTABLE = 'false';
+
+    /** Default namespace of custom types */
+    const DEFAULT_CUSTOM_TYPE_NAMESPACE = '\\samsonphp\\cms\\types\\';
+
+    /** Default generic class name */
+    const DEFAULT_GENERIC_TYPE = 'Generic';
+
+    /** Default control class name */
+    const DEFAULT_GENERIC_CONTROL_TYPE = 'Control';
+
     /** Path to index view of main page */
     const MAIN_INDEX_VIEW = 'www/main_application/index';
 
@@ -108,10 +126,18 @@ $class = <<<'EOD'
     }
 EOD;
 
-        return str_replace('{{fields}}', implode(',', array_merge($genericField, array("\n\t\t\t" . 'new Control()'. "\n\t\t"))), $class);
+        return str_replace(
+            '{{fields}}',
+            implode(',', array_merge(
+                $genericField,
+                array("\n\t\t\t" . 'new ' . self::DEFAULT_GENERIC_CONTROL_TYPE . '()'. "\n\t\t"))
+            ),
+            $class);
     }
 
     /**
+     * Create generic constructor for collection
+     * @param $customType
      * @param $name
      * @param $description
      * @param int $type
@@ -120,9 +146,28 @@ EOD;
      * @param string $sortable
      * @return string
      */
-    public function genericConstructor($name, $description, $type = 0, $css = '', $editable = 'true', $sortable = 'false')
-    {
-        return "\n\t\t\tnew Generic('$name', t('$description', true), $type, '$css', $editable, $sortable)";
+    public function genericCustomTypeConstructor(
+        $customType,
+        $name,
+        $description,
+        $type,
+        $css = self::DEFAULT_CUSTOM_TYPE_CSS,
+        $editable = self::DEFAULT_CUSTOM_TYPE_CSS,
+        $sortable = self::DEFAULT_CUSTOM_TYPE_CSS
+    ) {
+
+        // If custom type is exists then use it or use default generic type
+        if ($customType) {
+
+            // If field has namespace then use it or use default namespace
+            $class = preg_match('/\\\/', $customType) ? $customType: self::DEFAULT_CUSTOM_TYPE_NAMESPACE . $customType;
+        } else {
+
+            $class = self::DEFAULT_GENERIC_TYPE;
+        }
+
+
+        return "\n\t\t\tnew {$class}('$name', t('$description', true), $type, '$css', $editable, $sortable)";
     }
 
     /**
@@ -149,23 +194,23 @@ $code = <<<'EOD'
         $mainItemView = $this->mainItemView;
 
         // Return material block HTML on main page
-        return (new \samsoncms\api\{{collection_name}}Collection($this))
+        /*return (new \samsoncms\application\{{collection_name}}Collection($this))
             // Render index
-            ->indexView(function($renderer, $html) use ($navName, $mainIndexView) {
+            ->indexView(function($html, $renderer) use ($navName, $mainIndexView) {
                 return $renderer->view($mainIndexView)
-                    ->set(\samsoncms\api\renderable\Collection::ITEMS_VIEW_VARIABLE, $html)
+                    ->set($html, \samsoncms\api\renderable\Collection::ITEMS_VIEW_VARIABLE)
                     ->navName($navName)
                     ->output();
             })
             // Render item
-            ->itemView(function($renderer, $item) use ($moduleId, $mainItemView) {
+            ->itemView(function($item, $renderer) use ($moduleId, $mainItemView) {
                 return $renderer->view($mainItemView)
-                    ->set(\samsoncms\api\renderable\Collection::ITEM_VIEW_VARIABLE, $item)
-                    ->user(m('social')->user())
+                    ->set($item, \samsoncms\api\renderable\Collection::ITEM_VIEW_VARIABLE)
+                    //->user(m('social')->user())
                     ->moduleId($moduleId)
                     ->output();
             })
-            ->output();
+            ->output();*/
     }
 EOD;
 
@@ -182,6 +227,8 @@ EOD;
      */
     public function createApplicationClass(Metadata $metadata, $namespace = __NAMESPACE__)
     {
+        $namespace .= '\\generated';
+
         $class = "\n" . 'namespace ' . $namespace . ';';
         $class .= "\n";
 
@@ -227,6 +274,9 @@ EOD;
      */
     public function createApplicationCollectionClass(Metadata $metadata, $namespace = __NAMESPACE__)
     {
+
+        $namespace .= '\\generated';
+
         $class = "\n" . 'namespace ' . $namespace . ';';
         $class .= "\n\n" . 'use samsoncms\field\Generic;';
         $class .= "\n" . 'use samsoncms\field\Control;';
@@ -241,10 +291,16 @@ EOD;
 
         // Iterate all field and create generic constructor for them
         foreach ($metadata->showFieldsInList as $fieldID) {
-            $genericFields[] = $this->genericConstructor(
+
+            // Create constructor for custom type or if it not exists then use cms defined type
+            $genericFields[] = $this->genericCustomTypeConstructor(
+                $metadata->customTypeFields[$fieldID],
                 $metadata->allFieldIDs[$fieldID],
                 $metadata->fieldRawDescriptions[$fieldID] ?: $metadata->allFieldNames[$fieldID],
-                $metadata->allFieldCmsTypes[$fieldID]
+                $metadata->allFieldCmsTypes[$fieldID],
+                self::DEFAULT_CUSTOM_TYPE_CSS,
+                self::DEFAULT_CUSTOM_TYPE_EDITABLE,
+                self::DEFAULT_CUSTOM_TYPE_SORTABLE
             );
         }
 
@@ -254,6 +310,28 @@ EOD;
         ;
 
         return $this->formatTab($this->generator->flush());
+    }
+
+    public function createSubMenuView(Metadata $metadata, $namespace = __NAMESPACE__)
+    {
+
+$code = <<<'EOD'
+
+    <li>
+        <a class="sub_menu_a <?php if(isv('all_materials')):?>active<?php endif?>" href="<?php module_url()?>">
+            <i class="icon2 icon2-list"></i>
+            <?php t('All products')?>
+        </a>
+    </li>
+    <li>
+        <a class="sub_menu_a <?php if(isv('new_material')):?>active<?php endif?>" href="<?php module_url('new', 14);?>">
+            <i class="icon2 icon2-plus"></i> <?php t('Add product')?>
+        </a>
+    </li>
+
+EOD;
+
+        return str_replace('{{fields}}', implode(',', array_merge(array(), array("\n\t\t\t" . 'new Control()'. "\n\t\t"))), $code);
     }
 }
 
