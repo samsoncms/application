@@ -51,6 +51,6 @@ class Entity extends Generic
         }
 
         // Render tab content
-        return $this->renderer->view($this->contentView)->content($view)->output();
+        return $this->renderer->view($this->contentView)->set($view, 'content')->output();
     }
 }

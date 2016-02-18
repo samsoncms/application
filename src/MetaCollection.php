@@ -145,8 +145,8 @@ class MetaCollection extends \samsoncms\api\Collection
 
         return $this->renderer
             ->view($this->indexView)
-            ->set('header', $headerHTML)
-            ->set('items', $items)
+            ->set($headerHTML, 'header')
+            ->set($items, 'items')
             ->output();
     }
 
@@ -200,7 +200,7 @@ class MetaCollection extends \samsoncms\api\Collection
         // Render fields row view
         return $this->renderer
             ->view($this->rowView)
-            ->set('cols', $fieldsHTML)
+            ->set($fieldsHTML, 'cols')
             ->output();
     }
 

@@ -198,14 +198,14 @@ $code = <<<'EOD'
             // Render index
             ->indexView(function($html, $renderer) use ($navName, $mainIndexView) {
                 return $renderer->view($mainIndexView)
-                    ->set(\samsoncms\api\renderable\Collection::ITEMS_VIEW_VARIABLE, $html)
+                    ->set($html, \samsoncms\api\renderable\Collection::ITEMS_VIEW_VARIABLE)
                     ->navName($navName)
                     ->output();
             })
             // Render item
             ->itemView(function($item, $renderer) use ($moduleId, $mainItemView) {
                 return $renderer->view($mainItemView)
-                    ->set(\samsoncms\api\renderable\Collection::ITEM_VIEW_VARIABLE, $item)
+                    ->set($item, \samsoncms\api\renderable\Collection::ITEM_VIEW_VARIABLE)
                     //->user(m('social')->user())
                     ->moduleId($moduleId)
                     ->output();

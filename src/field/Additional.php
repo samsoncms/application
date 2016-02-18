@@ -49,12 +49,12 @@ class Additional extends Generic
                 'field'
             );
         } else if (isset($object[$this->name])){ // Or just show a value of entity object field
-            $renderer->set('field_html', $object->value());
+            $renderer->set($object->value(), 'field_html');
         }
 
         // Render input field view
         return $renderer
-            ->set('class', $this->css)
+            ->set($this->css, 'class')
             ->set($object, 'item')
             ->output();
     }
