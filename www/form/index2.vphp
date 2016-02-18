@@ -6,6 +6,6 @@
 </section>
 <section id="content">
     <div class="application-form">
-        <?php iv('formContent') ?>
+        <?php echo $formContent ?>
     </div>
 </section>

@@ -93,11 +93,11 @@ class Generic
         // Render input field view
         return $renderer
             ->view($this->headerView)
-            ->set('class', $this->css)
-            ->set('field', $this->title)
-            ->set('canSort', $this->sortable)
-            ->set('sortClass', $sortClass)
-            ->set('sortLink', $link)
+            ->set($this->css, 'class')
+            ->set($this->title, 'field')
+            ->set($this->sortable, 'canSort')
+            ->set($sortClass, 'sortClass')
+            ->set($link, 'sortLink')
             ->output();
     }
 
@@ -163,15 +163,15 @@ class Generic
                     $value = $object['numeric_value'];
                 }
 
-                $renderer->set('field_html', $value);
+                $renderer->set($value, 'field_html');
             } else if (isset($object[$this->name])){ // Or just show a value of entity object field
-                $renderer->set('field_html', $object[$this->name]);
+                $renderer->set($object[$this->name], 'field_html');
             }
         }
 
         // Render input field view
         return $renderer
-            ->set('class', $this->css)
+            ->set($this->css, 'class')
             ->set($object, 'item')
             ->output();
     }
