@@ -106,7 +106,7 @@ class Collection extends \samsonframework\collection\Paged
         // Render fields row view
         return $this->renderer
             ->view($this->rowView)
-            ->set('cols', $fieldsHTML)
+            ->set($fieldsHTML, 'cols')
             ->output();
     }
 }
