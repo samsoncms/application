@@ -170,6 +170,49 @@ EOD;
         return "\n\t\t\tnew {$class}('$name', t('$description', true), $type, '$css', $editable, $sortable)";
     }
 
+    public function genereateAddedMaterialMethod()
+    {
+$code = <<<'EOD'
+
+    /**
+     * New material entity creation controller action
+     * @param int $navigation Parent navigation identifier
+     */
+    public function __new($navigation = null)
+    {
+        // Create new entity
+        $entity = new \samson\activerecord\material();
+        $entity->Active = 1;
+        $entity->Created = date('Y-m-d H:m:s');
+
+        // Set user
+        $user = m('socialemail')->user();
+        $entity->UserID = $user->user_id;
+
+        // Persist
+        $entity->save();
+
+        // Set navigation relation
+        if (isset($navigation)) {
+
+            foreach (self::$structures as $v) {
+
+                // Create relation with structure
+                $structureMaterial = new \samson\activerecord\structurematerial();
+                $structureMaterial->MaterialID = $entity->id;
+                $structureMaterial->StructureID = $v;
+                $structureMaterial->Active = '1';
+                $structureMaterial->save();
+            }
+        }
+
+        // Go to correct form URL
+        url()->redirect('cms/' . $this->id . '/form/' . $entity->id);
+    }
+EOD;
+        return $code;
+    }
+
     /**
      * Render method for rendering view of entity on main page
      * @param $entityName
@@ -194,7 +237,7 @@ $code = <<<'EOD'
         $mainItemView = $this->mainItemView;
 
         // Return material block HTML on main page
-        /*return (new \samsoncms\application\{{collection_name}}Collection($this))
+        return (new \samsoncms\application\{{collection_name}}Collection($this))
             // Render index
             ->indexView(function($html, $renderer) use ($navName, $mainIndexView) {
                 return $renderer->view($mainIndexView)
@@ -210,7 +253,7 @@ $code = <<<'EOD'
                     ->moduleId($moduleId)
                     ->output();
             })
-            ->output();*/
+            ->output();
     }
 EOD;
 
@@ -258,6 +301,7 @@ EOD;
             ->defClassVar('$collectionClass', 'protected', $namespace . '\\' . $this->entityName($metadata->entityRealName). 'ApplicationCollection')
             ->text($this->generateConstructorApplicationClass())
             ->text($metadata->renderMainApplication ? $this->renderViewsOnMainPage($metadata->entityRealName) : '')
+            ->text($this->genereateAddedMaterialMethod())
             ->endClass()
         ;
 
@@ -324,7 +368,7 @@ $code = <<<'EOD'
         </a>
     </li>
     <li>
-        <a class="sub_menu_a <?php if(isv('new_material')):?>active<?php endif?>" href="<?php module_url('new', 14);?>">
+        <a class="sub_menu_a <?php if(isv('new_material')):?>active<?php endif?>" href="<?php module_url('new', 0);?>">
             <i class="icon2 icon2-plus"></i> <?php t('Add product')?>
         </a>
     </li>
