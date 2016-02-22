@@ -74,6 +74,6 @@ class Form
             $tabs .= $tab->render();
         }
 
-        return $this->renderer->view($this->indexView)->set($tabs, 'tabs')->output();
+        return $this->renderer->view($this->indexView)->set($tabs, 'tabs')->set($this->entity->id, 'entityId')->output();
     }
 }
