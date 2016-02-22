@@ -194,7 +194,7 @@ $code = <<<'EOD'
         $mainItemView = $this->mainItemView;
 
         // Return material block HTML on main page
-        /*return (new \samsoncms\application\{{collection_name}}Collection($this))
+        /*return (new \samsoncms\api\generated\{{collection_name}}Collection($this))
             // Render index
             ->indexView(function($html, $renderer) use ($navName, $mainIndexView) {
                 return $renderer->view($mainIndexView)
@@ -324,7 +324,7 @@ $code = <<<'EOD'
         </a>
     </li>
     <li>
-        <a class="sub_menu_a <?php if(isv('new_material')):?>active<?php endif?>" href="<?php module_url('new', 14);?>">
+        <a class="sub_menu_a <?php if(isv('new_material')):?>active<?php endif?>" href="<?php module_url('new');?>">
             <i class="icon2 icon2-plus"></i> <?php t('Add product')?>
         </a>
     </li>
