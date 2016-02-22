@@ -1,4 +1,5 @@
 <div class="samsoncms-form">
+    <input type="hidden" value="<?php iv('entityId') ?>" id="entityId">
     <?php iv('tabs') ?>
     
     <div class="back-link">
