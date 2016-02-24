@@ -5,9 +5,19 @@
 SamsonCMS_InputINIT_TAB = function(form) {
     var hash = window.location.hash;
     var currentBlock = s(hash);
-    if (hash == '') {
-        currentBlock = s('.template-block:first-child');
-        hash = currentBlock.a('id');
+    
+    // If current tab block not found
+    if (!currentBlock.length) {
+        var currentBlocks = s('.template-block').elements;
+        if (currentBlocks.length) {
+            currentBlock = currentBlocks[0];
+            hash = currentBlock.a('id');
+        }
+    }
+
+    // Stop rendering if hash is not defined
+    if (hash === 'undefined') {
+        return false;
     }
 
     // Open/close tab by click on the title of tab
