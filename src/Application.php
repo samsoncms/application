@@ -240,7 +240,7 @@ class Application extends CompressableExternalModule
         $entity->save();
 
         // Go to correct form URL
-        url()->redirect($this->id . '/form/' . $entity->id);
+        url()->redirect($this->system->module('cms')->id.'/'.$this->id . '/form/' . $entity->id);
     }
 
     /**
