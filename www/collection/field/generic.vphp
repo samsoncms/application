@@ -1,3 +1,4 @@
 <div class="table2-col <?php iv('class')?>">
+    <div class="label"><span><?php iv('title')?></span></div>
     <?php v('field_html');?>
 </div>

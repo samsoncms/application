@@ -201,6 +201,7 @@ class MetaCollection extends \samsoncms\api\Collection
         return $this->renderer
             ->view($this->rowView)
             ->set($fieldsHTML, 'cols')
+            ->set($item->Published, 'isPublished')
             ->output();
     }
 

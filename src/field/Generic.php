@@ -172,6 +172,7 @@ class Generic
         // Render input field view
         return $renderer
             ->set($this->css, 'class')
+            ->set($this->title, 'title')
             ->set($object, 'item')
             ->output();
     }
