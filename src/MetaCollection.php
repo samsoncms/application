@@ -201,7 +201,7 @@ class MetaCollection extends \samsoncms\api\Collection
         return $this->renderer
             ->view($this->rowView)
             ->set($fieldsHTML, 'cols')
-            ->set($item->Published === 0 ? 'not-published' : '', 'isPublished')
+            ->set($item->Published == 0 ? 'not-published' : '', 'isNotPublished')
             ->output();
     }
 
