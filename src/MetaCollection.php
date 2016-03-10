@@ -96,6 +96,28 @@ class MetaCollection extends \samsoncms\api\Collection
     }
 
     /**
+     * Render items collection for async updating
+     * @return string Rendered material collection block
+     */
+    public function renderItems()
+    {
+        $html = '';
+
+        // Do not render block if there is no items
+        if (sizeof($this->collection)) {
+            // Render all block items
+            foreach ($this->collection as &$item) {
+                // Render item views
+                $html .= $this->renderItem($item);
+            }
+        } elseif (isset($this->emptyView{0})) { // Render empty view
+            $html = $this->renderEmpty();
+        }
+
+        return $html;
+    }
+
+    /**
      * Render pagination size block
      * @return string pagination size block
      */
@@ -201,7 +223,7 @@ class MetaCollection extends \samsoncms\api\Collection
         return $this->renderer
             ->view($this->rowView)
             ->set($fieldsHTML, 'cols')
-            ->set($item->Published, 'isPublished')
+            ->set($item->Published === 0 ? 'not-published' : '', 'isPublished')
             ->output();
     }
 
