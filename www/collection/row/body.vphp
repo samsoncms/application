@@ -1,3 +1,3 @@
-<div class="table2-row <?=$isPublished ? '' : 'not-published' ?>">
+<div class="table2-row <?=!empty($isNotPublished) ? $isNotPublished : '' ?>">
     <?php iv('cols')?>
 </div>
