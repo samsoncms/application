@@ -296,7 +296,7 @@ EOD;
             $genericFields[] = $this->genericCustomTypeConstructor(
                 $metadata->customTypeFields[$fieldID],
                 $metadata->allFieldIDs[$fieldID],
-                $metadata->fieldRawDescriptions[$fieldID] ?: $metadata->allFieldNames[$fieldID],
+                strlen($metadata->fieldRawDescriptions[$fieldID]) === 0 ? $metadata->allFieldIDs[$fieldID] : $metadata->fieldRawDescriptions[$fieldID],
                 $metadata->allFieldCmsTypes[$fieldID],
                 self::DEFAULT_CUSTOM_TYPE_CSS,
                 self::DEFAULT_CUSTOM_TYPE_EDITABLE,
