@@ -15,6 +15,18 @@ class Collection extends \samsoncms\api\generator\Generic
     /** Default control class name */
     const DEFAULT_GENERIC_CONTROL_TYPE = 'Control';
 
+    /** Custom css selector in generic constructor */
+    const DEFAULT_CUSTOM_TYPE_CSS = '';
+
+    /** User can edit field in list of application */
+    const DEFAULT_CUSTOM_TYPE_EDITABLE = 'false';
+
+    /** Field can be sortable in list of application */
+    const DEFAULT_CUSTOM_TYPE_SORTABLE = 'false';
+
+    /** Default namespace of custom types */
+    const DEFAULT_CUSTOM_TYPE_NAMESPACE = '\\samsonphp\\cms\\types\\';
+
     /**
      * Class definition generation part.
      *
@@ -26,9 +38,45 @@ class Collection extends \samsoncms\api\generator\Generic
     }
 
     /**
+     * Create generic constructor for collection.
+     *
+     * @param $customType
+     * @param $name
+     * @param $description
+     * @param int $type
+     * @param string $css
+     * @param string $editable
+     * @param string $sortable
+     * @return string
+     */
+    public function createCollectionField(
+        $customType,
+        $name,
+        $description,
+        $type,
+        $css = self::DEFAULT_CUSTOM_TYPE_CSS,
+        $editable = self::DEFAULT_CUSTOM_TYPE_CSS,
+        $sortable = self::DEFAULT_CUSTOM_TYPE_CSS
+    ) {
+
+        // If custom type is exists then use it or use default generic type
+        if ($customType) {
+
+            // If field has namespace then use it or use default namespace
+            $class = preg_match('/\\\/', $customType) ? $customType: self::DEFAULT_CUSTOM_TYPE_NAMESPACE . $customType;
+        } else {
+
+            $class = self::DEFAULT_GENERIC_TYPE;
+        }
+
+
+        return "\n\t\t\tnew {$class}('$name', t('$description', true), $type, '$css', $editable, $sortable)";
+    }
+
+    /**
      * Class constructor generation part.
      *
-     * @param \samsoncms\api\generator\metadata\Virtual $metadata Entity metadata
+     * @param \samsoncms\application\generator\metadata\Application $metadata Entity metadata
      */
     protected function createConstructor($metadata)
     {
@@ -47,14 +95,14 @@ class Collection extends \samsoncms\api\generator\Generic
         $this->fields = array({{fields}});
     }
 EOD;
-        // Iterate all field and create generic constructor for them
+        // Iterate all application fields and create generic constructor for them
         foreach ($metadata->showFieldsInList as $fieldID) {
             // Create constructor for custom type or if it not exists then use cms defined type
-            $genericFields[] = $this->genericCustomTypeConstructor(
+            $genericFields[] = $this->createCollectionField(
                 $metadata->customTypeFields[$fieldID],
-                $metadata->allFieldIDs[$fieldID],
-                strlen($metadata->fieldRawDescriptions[$fieldID]) === 0 ? $metadata->allFieldIDs[$fieldID] : $metadata->fieldRawDescriptions[$fieldID],
-                $metadata->allFieldCmsTypes[$fieldID],
+                $metadata->fieldNames[$fieldID],
+                $metadata->fieldDescriptions[$fieldID],
+                $metadata->fieldCMSTypes[$fieldID],
                 self::DEFAULT_CUSTOM_TYPE_CSS,
                 self::DEFAULT_CUSTOM_TYPE_EDITABLE,
                 self::DEFAULT_CUSTOM_TYPE_SORTABLE
@@ -64,9 +112,9 @@ EOD;
         $constructorCode = str_replace(
             '{{fields}}',
             implode(',', array_merge(
-                    $genericField,
-                    array("\n\t\t\t" . 'new ' . self::DEFAULT_GENERIC_CONTROL_TYPE . '()'. "\n\t\t"))
-            ),
+                $genericField,
+                array("\n\t\t\t" . 'new ' . self::DEFAULT_GENERIC_CONTROL_TYPE . '()'. "\n\t\t"))
+        ),
             $constructorCode);
 
         $this->generator->text($constructorCode);

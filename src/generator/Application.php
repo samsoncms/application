@@ -13,18 +13,6 @@ namespace samsoncms\application\generator;
  */
 class Application extends \samsoncms\api\generator\Generic
 {
-    /** Custom css selector in generic constructor */
-    const DEFAULT_CUSTOM_TYPE_CSS = '';
-
-    /** User can edit field in list of application */
-    const DEFAULT_CUSTOM_TYPE_EDITABLE = 'false';
-
-    /** Field can be sortable in list of application */
-    const DEFAULT_CUSTOM_TYPE_SORTABLE = 'false';
-
-    /** Default namespace of custom types */
-    const DEFAULT_CUSTOM_TYPE_NAMESPACE = '\\samsonphp\\cms\\types\\';
-
     /** Default generic class name */
     const DEFAULT_GENERIC_TYPE = 'Generic';
 

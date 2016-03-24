@@ -121,14 +121,14 @@ class Application extends CompressableExternalModule
 
         //[PHPCOMPRESSOR(remove,start)]
         // Check if it is main application class
-        if (get_class($this) === __CLASS__) {
-
-            // TODO db()
-            $cacheGenerator = new CacheGenerate(db());
-
-            // Load generated modules
-            $cacheGenerator->loadModules($this->system, $this->cache_path);
-        }
+//        if (get_class($this) === __CLASS__) {
+//
+//            // TODO db()
+//            $cacheGenerator = new CacheGenerate(db());
+//
+//            // Load generated modules
+//            $cacheGenerator->loadModules($this->system, $this->cache_path);
+//        }
         //[PHPCOMPRESSOR(remove,end)]
     }
 
