@@ -1,4 +1,5 @@
 <?php
+//[PHPCOMPRESSOR(remove,start)]
 /**
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 23.03.16 at 14:51
@@ -22,3 +23,4 @@ class Application extends \samsoncms\api\generator\Generic
         // TODO: Implement createDefinition() method.
     }
 }
+//[PHPCOMPRESSOR(remove,end)]

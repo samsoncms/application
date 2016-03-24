@@ -5,7 +5,6 @@
  * Date: 14.02.2016
  * Time: 14:48
  */
-
 namespace samsoncms\application;
 
 /**
