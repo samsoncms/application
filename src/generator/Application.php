@@ -28,11 +28,45 @@ class Application extends \samsoncms\api\generator\Generic
     /**
      * Class definition generation part.
      *
-     * @param \samsoncms\api\generator\metadata\Generic $metadata Entity metadata
+     * @param \samsoncms\application\generator\metadata\Application $metadata Entity metadata
      */
     protected function createDefinition($metadata)
     {
-        // TODO: Implement createDefinition() method.
+        $this->generator
+            ->multiComment(array('Class application for "'.$metadata->name.'"'))
+            ->defClass($metadata->entity, '\\'.\samsoncms\app\material\Application::class)
+        ;
+    }
+
+    /**
+     * Class fields generation part.
+     *
+     * @param \samsoncms\application\generator\metadata\Application $metadata Entity metadata
+     */
+    protected function createFields($metadata)
+    {
+        $this->generator
+            ->commentVar('string', 'Application name')
+            ->defVar('public $name', $metadata->name)
+            ->commentVar('string', 'Application description')
+            ->defVar('public $description', $metadata->description)
+            ->commentVar('string', 'Identifier')
+            ->defVar('protected $id', $metadata->entity)
+            ->commentVar('string', 'Icon class')
+            ->defVar('public $icon', $metadata->iconApplication)
+            ->commentVar('bool', 'Flag for hiding Application icon in main menu')
+            ->defClassVar('$hide', 'public', !$metadata->showApplication ? 1 : 0)
+            ->commentVar('string', 'Path to rendering index view in main page')
+            ->defClassVar('$mainIndexView', 'public', self::MAIN_INDEX_VIEW)
+            ->commentVar('string', 'Path to rendering item view in main page')
+            ->defClassVar('$mainItemView', 'public', self::MAIN_ITEM_VIEW)
+            ->commentVar('array', 'Collection of structures related to entity')
+            ->defClassVar('$navigation', 'public static', (int)$metadata->identifier)
+            ->commentVar('array', 'All structures which have to have material at creation')
+            ->defClassVar('$structures', 'public static', array_merge(array($metadata->entityID), $metadata->childNavigationIDs))
+            ->commentVar('string', 'Collection class name for rendering entities collection')
+            ->defClassVar('$collectionClass', 'protected', $metadata->entityClassName.'Collection')
+        ;
     }
 
     /**

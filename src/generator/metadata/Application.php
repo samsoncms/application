@@ -17,6 +17,15 @@ class Application extends \samsoncms\api\generator\metadata\Generic
     /** @var string Icon for application from current entity */
     public $iconApplication;
 
+    /** @var string Application name */
+    public $name;
+
+    /** @var string Application description */
+    public $description;
+
+    /** @var string Application identifier */
+    public $identifier;
+
     /** @var array Collection of application custom additional fieldIDs to their names */
     public $fieldNames = array();
 
