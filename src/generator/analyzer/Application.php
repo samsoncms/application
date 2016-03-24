@@ -1,5 +1,5 @@
 <?php
-namespace \samsoncms\application\generator\analyzer;
+namespace samsoncms\application\generator\analyzer;
 
 /**
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
