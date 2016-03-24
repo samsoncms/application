@@ -36,9 +36,6 @@ class GeneratorApplication extends Generator
     /** Default generic class name */
     const DEFAULT_GENERIC_TYPE = 'Generic';
 
-    /** Default control class name */
-    const DEFAULT_GENERIC_CONTROL_TYPE = 'Control';
-
     /** Path to index view of main page */
     const MAIN_INDEX_VIEW = 'www/main_application/index';
 

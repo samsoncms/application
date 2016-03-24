@@ -1,6 +1,6 @@
 <?php
 //[PHPCOMPRESSOR(remove,start)]
-namespace \samsoncms\application\generator\metadata;
+namespace samsoncms\application\generator\metadata;
 
 /**
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
