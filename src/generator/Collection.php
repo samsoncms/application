@@ -1,4 +1,5 @@
 <?php
+//[PHPCOMPRESSOR(remove,start)]
 /**
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 24.03.16 at 13:34
@@ -28,25 +29,41 @@ class Collection extends \samsoncms\api\generator\Generic
     const DEFAULT_CUSTOM_TYPE_NAMESPACE = '\\samsonphp\\cms\\types\\';
 
     /**
+     * Class uses generation part.
+     *
+     * @param \samsoncms\api\generator\metadata\Generic $metadata Entity metadata
+     */
+    protected function createUses($metadata)
+    {
+        $this->generator
+            ->text('use samsoncms\field\Control;')
+            ->text('use samsoncms\field\Generic;')
+            ->newLine();
+    }
+
+    /**
      * Class definition generation part.
      *
      * @param \samsoncms\application\generator\metadata\Application $metadata Entity metadata
      */
     protected function createDefinition($metadata)
     {
-        // TODO: Implement createDefinition() method.
+        $this->generator
+            ->multiComment(array('Collection for SamsonCMS application "'.$metadata->name.'"'))
+            ->defClass($metadata->entity, '\\'.\samsoncms\app\material\Collection::class);
     }
 
     /**
      * Create generic constructor for collection.
      *
-     * @param $customType
-     * @param $name
-     * @param $description
-     * @param int $type
+     * @param        $customType
+     * @param        $name
+     * @param        $description
+     * @param int    $type
      * @param string $css
      * @param string $editable
      * @param string $sortable
+     *
      * @return string
      */
     public function createCollectionField(
@@ -57,13 +74,14 @@ class Collection extends \samsoncms\api\generator\Generic
         $css = self::DEFAULT_CUSTOM_TYPE_CSS,
         $editable = self::DEFAULT_CUSTOM_TYPE_CSS,
         $sortable = self::DEFAULT_CUSTOM_TYPE_CSS
-    ) {
+    )
+    {
 
         // If custom type is exists then use it or use default generic type
         if ($customType) {
 
             // If field has namespace then use it or use default namespace
-            $class = preg_match('/\\\/', $customType) ? $customType: self::DEFAULT_CUSTOM_TYPE_NAMESPACE . $customType;
+            $class = preg_match('/\\\/', $customType) ? $customType : self::DEFAULT_CUSTOM_TYPE_NAMESPACE . $customType;
         } else {
 
             $class = self::DEFAULT_GENERIC_TYPE;
@@ -112,11 +130,12 @@ EOD;
         $constructorCode = str_replace(
             '{{fields}}',
             implode(',', array_merge(
-                $genericField,
-                array("\n\t\t\t" . 'new ' . self::DEFAULT_GENERIC_CONTROL_TYPE . '()'. "\n\t\t"))
-        ),
+                    $genericFields,
+                    array("\n\t\t\t" . 'new ' . self::DEFAULT_GENERIC_CONTROL_TYPE . '()' . "\n\t\t"))
+            ),
             $constructorCode);
 
         $this->generator->text($constructorCode);
     }
 }
+//[PHPCOMPRESSOR(remove,end)]
