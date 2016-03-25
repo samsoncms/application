@@ -118,9 +118,9 @@ EOD;
             // Create constructor for custom type or if it not exists then use cms defined type
             $genericFields[] = $this->createCollectionField(
                 $metadata->customTypeFields[$fieldID],
-                $metadata->fieldNames[$fieldID],
+                $metadata->allFieldIDs[$fieldID],
                 $metadata->fieldDescriptions[$fieldID],
-                $metadata->fieldCMSTypes[$fieldID],
+                $metadata->allFieldCmsTypes[$fieldID],
                 self::DEFAULT_CUSTOM_TYPE_CSS,
                 self::DEFAULT_CUSTOM_TYPE_EDITABLE,
                 self::DEFAULT_CUSTOM_TYPE_SORTABLE

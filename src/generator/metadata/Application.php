@@ -6,7 +6,7 @@ namespace samsoncms\application\generator\metadata;
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 23.03.16 at 16:21
  */
-class Application extends \samsoncms\api\generator\metadata\Generic
+class Application extends \samsoncms\api\generator\metadata\Virtual
 {
     /** @var string Generate application from current entity */
     public $generateApplication;
@@ -25,18 +25,6 @@ class Application extends \samsoncms\api\generator\metadata\Generic
 
     /** @var string Application identifier */
     public $identifier;
-
-    /** @var array Collection of application custom additional fieldIDs to their names */
-    public $fieldNames = array();
-
-    /** @var array Collection of application custom additional fieldIDs to their names */
-    public $fieldDescriptions = array();
-
-    /** @var array Collection of application custom additional fieldIDs to their PHP types */
-    public $fieldTypes = array();
-
-    /** @var array Collection of application custom additional fieldIDs to their SamsonCMS types */
-    public $fieldCMSTypes = array();
 
     /** @var string Icon for application from current entity */
     public $renderMainApplication;
