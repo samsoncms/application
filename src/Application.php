@@ -122,7 +122,7 @@ class Application extends CompressableExternalModule
      * Universal controller action.
      * Entity collection rendering
      */
-    public function __handler()
+    public function __handler($page)
     {
         $description = t($this->description, true);
         $name = t($this->description, true);
@@ -130,9 +130,28 @@ class Application extends CompressableExternalModule
         // Prepare view
         $this->title($description)
             ->view('collection/index')
-            ->set('name', $name)
-            ->set('icon', $this->icon)
-            ->set('description', $description)
+            ->set($name, 'name')
+            ->set($this->icon, 'icon')
+            ->set($description, 'description')
+            ->set($this->__async_collection(0,0,$page))
+        ;
+    }
+
+    /**
+     * Universal controller action.
+     * Entity collection rendering
+     */
+    public function __base()
+    {
+        $description = t($this->description, true);
+        $name = t($this->description, true);
+
+        // Prepare view
+        $this->title($description)
+            ->view('collection/index')
+            ->set($name, 'name')
+            ->set($this->icon, 'icon')
+            ->set($description, 'description')
             ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
         ;
     }
