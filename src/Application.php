@@ -148,7 +148,6 @@ class Application extends CompressableExternalModule
             $this->query->entity($this->entity),
             new Pager($page, $this->pageSize, $this->id . '/collection')
         );
-
         // Generate Asynchronous response array
         return array_merge(
             array('status' => 1),

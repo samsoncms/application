@@ -35,6 +35,13 @@
 
 <!-- Content section -->
 <section id="content">
+    <!-- This only relates to material applications need to be moved there -->
+    <?php if(isset($navigationId)):?>
+        <input type="hidden" id="navigationId" value="<?php iv('navigationId')?>">
+        <input type="hidden" id="searchQuery" value="<?php iv('searchQuery')?>">
+        <input type="hidden" id="pageNumber" value="<?php iv('pageNumber')?>">
+    <?php endif ?>
+
 	<?php v('collection_html'); ?>
 </section>
 <!-- End of Content section -->
