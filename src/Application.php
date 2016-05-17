@@ -137,7 +137,7 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Render entities collection
+     * Withdrawal of a specified page (materials that are table)
      * @return array Asynchronous response array
      */
     public function __async_collection($page = 1)
@@ -153,6 +153,25 @@ class Application extends CompressableExternalModule
             array('status' => 1),
             $entitiesCollection->toView('collection_')
         );
+    }
+
+    /**
+     * Output
+     * Entity collection rendering
+     */
+    public function __collection($page = 1)
+    {
+        $description = t($this->description, true);
+        $name = t($this->description, true);
+
+        // Prepare view
+        $this->title($description)
+            ->view('collection/index')
+            ->set($name, 'name')
+            ->set($this->icon, 'icon')
+            ->set($description, 'description')
+            ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
+        ;
     }
 
     /**
