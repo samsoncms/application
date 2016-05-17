@@ -137,8 +137,8 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Withdrawal of a specified page (materials that are table)
-     * @return array Asynchronous response array
+     * Universal controller action.
+     * Entity collection rendering
      */
     public function __async_collection($page = 1)
     {
@@ -156,8 +156,8 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Output
-     * Entity collection rendering
+     * Render entities collection
+     * @return array Asynchronous response array
      */
     public function __collection($page = 1)
     {
