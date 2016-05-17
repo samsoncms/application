@@ -137,8 +137,8 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Universal controller action.
-     * Entity collection rendering
+     * Render entities collection
+     * @return array Asynchronous response array
      */
     public function __async_collection($page = 1)
     {
