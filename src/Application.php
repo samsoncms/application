@@ -121,7 +121,7 @@ class Application extends CompressableExternalModule
      * Universal controller action.
      * Entity collection rendering
      */
-    public function __handler()
+    public function __handler($page = 1)
     {
         $description = t($this->description, true);
         $name = t($this->description, true);
