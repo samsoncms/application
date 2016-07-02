@@ -135,7 +135,6 @@ class Application extends CompressableExternalModule
             ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
         ;
     }
-
     /**
      * Render entities collection
      * @return array Asynchronous response array

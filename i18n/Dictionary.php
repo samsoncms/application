@@ -44,6 +44,24 @@ class Dictionary implements IDictionary
                 "Отобразить в виде таблицы" => "Відобразити як таблицю",
                 "Отобразить в виде блоков" => "Відобразити як блоки"
             ),
+            "de" => array(
+                "В данный момент данных нет" => "Derzeit liegen keine Daten",
+                "По Вашему запросу ничего не найдено" => "Ihre Suche brachte nicht überein",
+                "Выход" => "Ausfahrt",
+                "На сайт" => "Zuhause",
+                "Форма редактирования сущности" => "Wir bilden das Wesen der Bearbeitung",
+                "Теги структуры" => "Stichworte Strukturen",
+                "Добавить" => "Hinzufügen",
+                "Загрузка формы" => "Download-Formular",
+                "Список полей для" => "Liste der golf",
+                "Общие" => "Gemeinsam",
+                "ФИО" => "Vollständiger Name",
+                'Назад к списку' => 'Zurück zur Liste',
+                "Вы ввели некорректное значение" => "Sie haben einen falschen Wert",
+                "Поле с таким именем уже существует" => "Ein Feld mit diesem Namen existiert bereits",
+                "Отобразить в виде таблицы" => "Zum Anzeigen einer Tabelle",
+                "Отобразить в виде блоков" => "Eine Anzeigeeinheit"
+            ),
         );
     }
 }
