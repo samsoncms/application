@@ -12,7 +12,7 @@
       "samsonos/js_core":"*",
       "samsonos/js_md5":"*",
       "samsonjavascript/lightbox":"*",
-      "samsonos/js_tinybox":"*",
+      "samsonjavascript/tinybox":"*",
       "samsonos/js_select":"*",
       "samsonos/php_pager":"*",
       "samsonos/php_parse":"*",
