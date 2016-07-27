@@ -11,7 +11,7 @@
       "samsonos/php_i18n":"*",
       "samsonos/js_core":"*",
       "samsonos/js_md5":"*",
-      "samsonos/js_lightbox":"*",
+      "samsonjavascript/lightbox":"*",
       "samsonos/js_tinybox":"*",
       "samsonos/js_select":"*",
       "samsonos/php_pager":"*",
