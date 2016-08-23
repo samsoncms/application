@@ -12,7 +12,7 @@ use samsonframework\orm\QueryInterface;
  * SamsonCMS external compressible application for integrating
  * @author Vitaly Iegorov <egorov@samsonos.com>
  */
-class Application extends CompressableExternalModule
+class Application extends CompressableExternalModule  
 {
     /** Application name */
     public $name;
