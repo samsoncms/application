@@ -7,7 +7,6 @@
  */
 namespace samsoncms\form\field;
 
-
 class Generic extends \samsoncms\field\Generic
 {
     /** @var string Path to field view file */
