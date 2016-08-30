@@ -126,13 +126,15 @@ class Application extends CompressableExternalModule
         $description = t($this->description, true);
         $name = t($this->description, true);
 
+        $collection = call_user_func_array(array($this, '__async_collection'), func_get_args());
+
         // Prepare view
         $this->title($description)
             ->view('collection/index')
             ->set($name, 'name')
             ->set($this->icon, 'icon')
             ->set($description, 'description')
-            ->set(call_user_func_array(array($this, '__async_collection'), func_get_args()))
+            ->set($collection)
         ;
     }
     /**
