@@ -26,7 +26,9 @@ class Application extends CompressableExternalModule
     /** @var string Application main menu icon */
     public $icon = 'book';
 
-    /** @var \samsonframework\orm\QueryInterface */
+    /**
+     * @var \samsonframework\orm\QueryInterface
+     */
     protected $query;
 
     /** @var string Entity class name */
@@ -80,9 +82,12 @@ class Application extends CompressableExternalModule
      * @param SystemInterface $system
      * @param QueryInterface $query
      * @throws ApplicationFormClassNotFound
-     * @internal param RequestInterface $request
+     *
+     * @\samsonframework\containerannotation\InjectArgument(resources="\samsonframework\core\ResourcesInterface")
+     * @\samsonframework\containerannotation\InjectArgument(system="\samsonframework\core\SystemInterface")
+     * @\samsonframework\containerannotation\InjectArgument(query="\samsonframework\orm\QueryInterface")
      */
-    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query = null)
+    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query)
     {
         $this->query = $query;
 
@@ -103,9 +108,6 @@ class Application extends CompressableExternalModule
         if (!class_exists($this->formClassName)) {
             throw new ApplicationFormClassNotFound(array($this->id) . ' application form class ' . array($this->formClassName) . ' is not found');
         }
-
-        // Create database object
-        $this->query = new dbQuery('material');
 
         parent::__construct($path, $resources, $system);
     }
