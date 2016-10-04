@@ -83,11 +83,12 @@ class Application extends CompressableExternalModule
      * @param QueryInterface $query
      * @throws ApplicationFormClassNotFound
      *
-     * @\samsonframework\containerannotation\InjectArgument(resources="\samsonframework\core\ResourcesInterface")
-     * @\samsonframework\containerannotation\InjectArgument(system="\samsonframework\core\SystemInterface")
-     * @\samsonframework\containerannotation\InjectArgument(query="\samsonframework\orm\QueryInterface")
+     * @ \samsonframework\containerannotation\InjectArgument(system="samsonframework\core\SystemInterface")
+     * @ \samsonframework\containerannotation\InjectArgument(query="samsonframework\orm\QueryInterface")
+     * @ \samsonframework\containerannotation\InjectArgument(resources="samsonframework\core\ResourcesInterface")
+     *
      */
-    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query)
+    public function  __construct($path, SystemInterface $system, QueryInterface $query, ResourcesInterface $resources)
     {
         $this->query = $query;
 
