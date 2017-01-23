@@ -60,21 +60,6 @@ class Application extends CompressableExternalModule
     }
 
     /**
-     * Find SamsonCMS application by identifier
-     * @param string $id SamsonCMS application identifier
-     * @param mixed $app Variable to return found SamsonCMS application
-     * @return boolean True if SamsonCMS application has been found
-     */
-    public static function find($id, & $app = null)
-    {
-        // Clear var as someone can pass anything in it
-        $app = isset(self::$loaded[$id]) ? self::$loaded[$id] : null;
-
-        // Return if module exists
-        return isset($app);
-    }
-
-    /**
      * Application constructor.
      *
      * @param string $path
@@ -83,14 +68,14 @@ class Application extends CompressableExternalModule
      * @param QueryInterface $query
      * @throws ApplicationFormClassNotFound
      *
+     * @ \samsonframework\containerannotation\InjectArgument(resources="samsonframework\core\ResourcesInterface")
      * @ \samsonframework\containerannotation\InjectArgument(system="samsonframework\core\SystemInterface")
      * @ \samsonframework\containerannotation\InjectArgument(query="samsonframework\orm\QueryInterface")
-     * @ \samsonframework\containerannotation\InjectArgument(resources="samsonframework\core\ResourcesInterface")
      *
      */
-    public function  __construct($path, SystemInterface $system, QueryInterface $query, ResourcesInterface $resources)
+    public function  __construct($path, ResourcesInterface $resources, SystemInterface $system, QueryInterface $query = null)
     {
-        $this->query = $query;
+        $this->query = $query ?? new dbQuery();
 
         // Save CMSApplication instance
         if (!in_array(get_class($this), array(__CLASS__, 'samson\\cms\\App'))) {
@@ -111,6 +96,21 @@ class Application extends CompressableExternalModule
         }
 
         parent::__construct($path, $resources, $system);
+    }
+
+    /**
+     * Find SamsonCMS application by identifier
+     * @param string $id SamsonCMS application identifier
+     * @param mixed $app Variable to return found SamsonCMS application
+     * @return boolean True if SamsonCMS application has been found
+     */
+    public static function find($id, & $app = null)
+    {
+        // Clear var as someone can pass anything in it
+        $app = isset(self::$loaded[$id]) ? self::$loaded[$id] : null;
+
+        // Return if module exists
+        return isset($app);
     }
 
     /** Module initialization */
